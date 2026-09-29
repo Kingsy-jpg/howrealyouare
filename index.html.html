@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#F5F3EF">
+<title>测测你的“活人感”浓度：你在朋友圈里还剩多少真实？</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<style>
+  /* ========== 得意黑（标题字体） ========== */
+  @font-face {
+    font-family: 'Smiley Sans';
+    src: url('https://cdn.jsdelivr.net/npm/smiley-sans@2.0.1/dist/SmileySans-Oblique.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@v2.0.1/dist/SmileySans-Oblique.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg:      #F5F3EF;
+    --card:    #FFFFFF;
+    --ink:     #2B2A28;
+    --ink-2:   #6B6862;
+    --ink-3:   #A8A39A;
+    --coral:   #FF8B6A;
+    --blue:    #7BA7D7;
+    --yellow:  #F0C24B;
+    --matcha:  #8FBC8F;
+    --line:    #E8E4DC;
+    --font-display: 'Smiley Sans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+  }
+
+  body {
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 28px 20px calc(44px + env(safe-area-inset-bottom));
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ========== 屏幕切换 ========== */
+  .screen { display: none; flex: 1; flex-direction: column; }
+  .screen.active { display: flex; animation: screenIn 0.45s cubic-bezier(0.22,0.68,0.32,1) both; }
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========== 首页 ========== */
+  #screen-intro.active {
+    justify-content: center;
+    padding-bottom: 5vh;
+  }
+
+  .tag-rot {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--ink-2);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 15px;
+    transform: rotate(-1.6deg);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.28;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin: 0 0 28px;
+    text-align: left;
+  }
+
+  .hero-title .mark {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(180deg,
+      transparent 58%,
+      var(--yellow) 58%,
+      var(--yellow) 90%,
+      transparent 90%);
+    padding: 0 4px;
+  }
+
+  /* Bento 小格子 */
+  .bento-row {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 22px;
+  }
+
+  .bento-chip {
+    flex: 1;
+    border-radius: 20px;
+    padding: 16px 14px;
+    border: 1.5px solid transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .chip-coral  { background: #FFE8E0; border-color: #FFD2C4; }
+  .chip-blue   { background: #E5F0FA; border-color: #CFE0F2; }
+  .chip-matcha { background: #E6F3E6; border-color: #CFE7CF; }
+
+  .chip-num {
+    font-family: var(--font-display);
+    font-size: 27px;
+    line-height: 1;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .chip-label {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    letter-spacing: 0.06em;
+  }
+
+  .quote-card {
+    background: #fff;
+    border-radius: 22px;
+    padding: 22px 22px 22px 24px;
+    border: 1.5px solid var(--line);
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--ink-2);
+    letter-spacing: 0.03em;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 22px;
+    bottom: 22px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--coral);
+  }
+
+  .btn-main {
+    width: 100%;
+    padding: 19px 24px;
+    border-radius: 22px;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: transform 0.16s ease, background 0.16s ease;
+  }
+
+  .btn-main:active {
+    transform: scale(0.975);
+    background: #1A1918;
+  }
+
+  .btn-main .arrow {
+    font-size: 17px;
+    transition: transform 0.25s ease;
+  }
+
+  .btn-main:active .arrow {
+    transform: translateX(3px);
+  }
+
+  .fine-print {
+    margin: 20px 0 0;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--ink-3);
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  /* ========== 答题页 ========== */
+  .quiz-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 4px 0 22px;
+    flex: 0 0 auto;
+  }
+
+  .dot-progress {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .dot {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    transition: background 0.35s ease, transform 0.35s ease;
+  }
+
+  .dot.done { background: var(--coral); }
+  .dot.current {
+    background: var(--coral);
+    transform: scaleY(1.6);
+    border-radius: 4px;
+  }
+
+  .counter {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .counter #qIndex {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .qcard {
+    position: relative;
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 26px;
+    padding: 26px 22px 22px;
+    min-height: 400px;
+    flex: 0 0 auto;
+    transition: opacity 0.26s cubic-bezier(0.4,0,0.2,1),
+                transform 0.26s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .qcard.out {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+
+  .qcard.pre {
+    transition: none !important;
+    opacity: 0;
+    transform: translateX(28px);
+  }
+
+  .qnum {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    background: var(--yellow);
+    border-radius: 8px;
+    padding: 3px 10px;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .qtext {
+    font-size: 16.5px;
+    line-height: 1.75;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 22px;
+    letter-spacing: 0.005em;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    padding: 15px 16px;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    background: #FCFBF9;
+    border: 1.5px solid var(--line);
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.62;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background 0.22s ease, border-color 0.22s ease,
+                color 0.22s ease, transform 0.14s ease;
+  }
+
+  .option:last-child { margin-bottom: 0; }
+
+  .option:active { transform: scale(0.985); }
+
+  .option .dot-color {
+    flex: 0 0 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--opt-color, #ccc);
+    margin-top: 6px;
+    transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .option .otext { flex: 1; }
+
+  .option.selected {
+    background: var(--opt-bg, #F0F0F0);
+    border-color: var(--opt-color, #999);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .option.selected .dot-color {
+    transform: scale(1.5);
+  }
+
+  .back-btn {
+    margin: 20px auto 0;
+    display: block;
+    background: transparent;
+    border: none;
+    color: var(--ink-3);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: color 0.2s ease, opacity 0.25s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .back-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .back-btn:active { color: var(--ink-2); }
+
+  /* ========== 分析中 ========== */
+  .loading-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+    padding-bottom: 8vh;
+  }
+
+  .loader-dots {
+    display: flex;
+    gap: 10px;
+  }
+
+  .loader-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: bounce 1.3s ease-in-out infinite;
+  }
+
+  .loader-dots span:nth-child(1) { background: var(--coral);  animation-delay: 0s; }
+  .loader-dots span:nth-child(2) { background: var(--blue);   animation-delay: 0.16s; }
+  .loader-dots span:nth-child(3) { background: var(--yellow); animation-delay: 0.32s; }
+  .loader-dots span:nth-child(4) { background: var(--matcha); animation-delay: 0.48s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+    30%           { transform: translateY(-13px); opacity: 1; }
+  }
+
+  .loading-text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    margin: 0;
+    animation: breathe 2.2s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 1; }
+  }
+
+  /* ========== 结果页 ========== */
+  .res-tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    color: var(--ink-2);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .res-name {
+    font-family: var(--font-display);
+    font-size: 38px;
+    line-height: 1.28;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin: 0 0 18px;
+    text-align: left;
+  }
+
+  .res-line {
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--ink-2);
+    margin: 0 0 26px;
+    letter-spacing: 0.01em;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 22px;
+    border: 1.5px solid var(--line);
+  }
+
+  .radar-card {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 24px;
+    padding: 16px 12px;
+    margin-bottom: 16px;
+    pointer-events: none;
+  }
+
+  #radar { display: block; margin: 0 auto; }
+
+  /* 四维 Bento 网格 */
+  .dim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+
+  .dim-cell {
+    border-radius: 18px;
+    padding: 15px 15px 16px;
+    border: 1.5px solid transparent;
+  }
+
+  .dim-cell.d0 { background: #FFE8E0; border-color: #FFD2C4; }
+  .dim-cell.d1 { background: #E5F0FA; border-color: #CFE0F2; }
+  .dim-cell.d2 { background: #FEF6E0; border-color: #F5E6BC; }
+  .dim-cell.d3 { background: #E6F3E6; border-color: #CFE7CF; }
+
+  .dim-name {
+    font-size: 12px;
+    color: var(--ink-2);
+    letter-spacing: 0.06em;
+    margin-bottom: 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .dim-name b {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .dim-track {
+    height: 5px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.75);
+    overflow: hidden;
+  }
+
+  .dim-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 4px;
+    transition: width 0.95s cubic-bezier(0.22,0.68,0.32,1);
+  }
+
+  .d0 .dim-fill { background: var(--coral); }
+  .d1 .dim-fill { background: var(--blue); }
+  .d2 .dim-fill { background: var(--yellow); }
+  .d3 .dim-fill { background: var(--matcha); }
+
+  /* 报告卡片 */
+  .report {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .block {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 22px;
+    padding: 20px 20px 18px;
+  }
+
+  .block-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 13px;
+  }
+
+  .block-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: 0 0 9px;
+  }
+
+  .block h3 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .block p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--ink-2);
+    letter-spacing: 0.01em;
+  }
+
+  .block ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .block li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--ink-2);
+    margin-bottom: 9px;
+    letter-spacing: 0.01em;
+  }
+
+  .block li:last-child { margin-bottom: 0; }
+
+  .block li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--coral);
+  }
+
+  /* 关键词卡 */
+  .keyword-card {
+    margin-top: 14px;
+    padding: 30px 24px;
+    border-radius: 24px;
+    text-align: center;
+    background: var(--ink);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .keyword-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--coral);
+    opacity: 0.18;
+  }
+
+  .keyword-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -20px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--matcha);
+    opacity: 0.15;
+  }
+
+  .kw-label {
+    position: relative;
+    font-size: 10.5px;
+    letter-spacing: 0.38em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+  }
+
+  .kw-text {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.7;
+    color: #fff;
+    letter-spacing: 0.02em;
+  }
+
+  .note {
+    margin: 26px 0 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: var(--ink-3);
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .actions .btn-main {
+    flex: 1.3;
+    padding: 17px 12px;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+  }
+
+  .btn-ghost {
+    flex: 1;
+    padding: 17px 12px;
+    border-radius: 22px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    color: var(--ink-2);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  }
+
+  .btn-ghost:active {
+    transform: scale(0.975);
+    background: #F0EDE7;
+    border-color: #DCD7CD;
+  }
+
+  .footnote {
+    margin: 24px 0 0;
+    font-size: 11px;
+    line-height: 1.85;
+    color: var(--ink-3);
+    text-align: center;
+  }
+
+  /* ========== Toast ========== */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 46px;
+    transform: translate(-50%, 16px);
+    background: var(--ink);
+    color: #fff;
+    padding: 13px 24px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 99;
+    white-space: nowrap;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  @media (max-width: 360px) {
+    .hero-title { font-size: 34px; }
+    .res-name   { font-size: 32px; }
+    .qtext      { font-size: 15.5px; }
+    .option     { font-size: 13.5px; padding: 14px 14px; }
+    .kw-text    { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ==================== 首页 ==================== -->
+  <section id="screen-intro" class="screen active">
+    <div class="tag-rot">活人感浓度 · 趣味自测</div>
+    <h1 class="hero-title">
+      你在朋友圈里<br>
+      还剩多少<span class="mark">真实</span>？
+    </h1>
+
+    <div class="bento-row">
+      <div class="bento-chip chip-coral">
+        <div class="chip-num">12</div>
+        <div class="chip-label">道情境题</div>
+      </div>
+      <div class="bento-chip chip-blue">
+        <div class="chip-num">3</div>
+        <div class="chip-label">分钟</div>
+      </div>
+      <div class="bento-chip chip-matcha">
+        <div class="chip-num">4</div>
+        <div class="chip-label">个维度</div>
+      </div>
+    </div>
+
+    <div class="quote-card">
+      你发了那么多条动态，修了那么多遍图，<br>
+      却越来越不确定——<br>
+      屏幕那边的人，认识的到底是不是你。
+    </div>
+
+    <button class="btn-main" id="startBtn">
+      开始测试 <span class="arrow">→</span>
+    </button>
+    <p class="fine-print">本测试为趣味自测，不构成心理学诊断或医学建议。</p>
+  </section>
+
+  <!-- ==================== 答题页 ==================== -->
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-head">
+      <div class="dot-progress" id="dotProgress"></div>
+      <div class="counter"><span id="qIndex">01</span>/12</div>
+    </div>
+
+    <div class="qcard" id="qcard">
+      <div class="qnum">Q<span id="qNum">01</span></div>
+      <h2 class="qtext" id="qText"></h2>
+      <div class="options" id="options"></div>
+    </div>
+
+    <button class="back-btn" id="backBtn">← 上一题</button>
+  </section>
+
+  <!-- ==================== 分析中 ==================== -->
+  <section id="screen-loading" class="screen">
+    <div class="loading-inner">
+      <div class="loader-dots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p class="loading-text">正在分析你的活人感浓度……</p>
+    </div>
+  </section>
+
+  <!-- ==================== 结果页 ==================== -->
+  <section id="screen-result" class="screen">
+    <div class="res-tag">你的活人感类型</div>
+    <h1 class="res-name" id="resName"></h1>
+    <p class="res-line" id="resLine"></p>
+
+    <div class="radar-card">
+      <canvas id="radar"></canvas>
+    </div>
+
+    <div class="dim-grid" id="dims"></div>
+
+    <div class="report">
+      <div class="block">
+        <div class="block-head">
+          <span class="block-dot" style="background:var(--coral)"></span>
+          <h3>关于你</h3>
+        </div>
+        <p id="resDesc"></p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-dot" style="background:var(--blue)"></span>
+          <h3>你在社交里的样子</h3>
+        </div>
+        <ul id="resTraits"></ul>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-dot" style="background:var(--yellow)"></span>
+          <h3>容易被误会的地方</h3>
+        </div>
+        <p id="resMis"></p>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <span class="block-dot" style="background:var(--matcha)"></span>
+          <h3>你的“活人感”在哪里</h3>
+        </div>
+        <p id="resBoundary"></p>
+      </div>
+    </div>
+
+    <div class="keyword-card">
+      <div class="kw-label">隐 藏 关 键 词</div>
+      <div class="kw-text" id="resKeyword"></div>
+    </div>
+
+    <p class="note">
+      这个结果不是在判断你“真不真实”，<br>
+      而是在描述你习惯用多少真实的自己，去面对别人。
+    </p>
+
+    <div class="actions">
+      <button class="btn-ghost" id="retryBtn">重新测试</button>
+      <button class="btn-main" id="shareBtn">分享我的结果</button>
+    </div>
+
+    <p class="footnote">本测试为趣味自测，不构成心理学诊断或医学建议。</p>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     一、题库
+     4 个隐藏维度：
+     [ 真实呈现度, 情绪外露度, 社交表演消耗, 自我关怀能力 ]
+     ========================================================= */
+  const QUESTIONS = [
+    {
+      text: '你拍了一张很满意的照片，但原图有点糊。你发朋友圈的时候会……',
+      options: [
+        { t: '修到每一根头发丝都完美，再配一段精心打磨的文案。', v: [0, 0, 3, 1] },
+        { t: '稍微调一下亮度就发了，文案写“今天还行”。',       v: [2, 1, 1, 2] },
+        { t: '不修，连配文都懒得想，直接发。',                 v: [3, 2, 0, 3] },
+        { t: '发到小号或者仅自己可见，大号还是发精修。',       v: [1, 1, 2, 1] }
+      ]
+    },
+    {
+      text: '你刚经历了一件很崩溃的事——考试挂了、面试没过、被朋友放了鸽子。你的第一反应是……',
+      options: [
+        { t: '发一条“发疯文学”，配一堆表情包，让所有人知道我今天不太行。', v: [2, 3, 1, 1] },
+        { t: '找一两个最好的朋友倾诉，但不会公开发。',                     v: [2, 1, 0, 3] },
+        { t: '自己消化，最多发一条很隐晦的动态，没人看懂最好。',           v: [1, 0, 2, 1] },
+        { t: '不会让任何人知道，明天照常上课照常笑。',                     v: [0, 0, 3, 0] }
+      ]
+    },
+    {
+      text: '朋友发消息问：“你最近怎么样？”你的真实状态是“不太好”，你会怎么回？',
+      options: [
+        { t: '如实说：“不太好，最近有点累。”',               v: [3, 2, 0, 3] },
+        { t: '回“还行吧”，然后等对方追问。',                 v: [2, 1, 2, 2] },
+        { t: '回“挺好的呀”，然后把话题转到对方身上。',       v: [0, 0, 3, 0] },
+        { t: '看是谁问的。好朋友就直说，一般朋友就说“挺好的”。', v: [2, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '你发现有人在你面前说另一个人的坏话，而你和那个人其实关系还不错。你会……',
+      options: [
+        { t: '有点尴尬，但笑着听完，不表态。',           v: [1, 0, 2, 1] },
+        { t: '直接说：“其实我觉得TA还挺好的。”',         v: [3, 3, 0, 2] },
+        { t: '附和几句，但心里觉得不太对劲。',           v: [0, 0, 3, 0] },
+        { t: '把话题岔开，不想参与这种对话。',           v: [2, 2, 2, 2] }
+      ]
+    },
+    {
+      text: '你在社交软件上和人聊天，发现对方已读不回。你会……',
+      options: [
+        { t: '开始回想自己是不是说错了什么。',           v: [1, 1, 3, 0] },
+        { t: '无所谓，对方可能在忙，我也干我的事去了。', v: [2, 1, 0, 3] },
+        { t: '会有点在意，但不会表现出来，也不会追问。', v: [1, 0, 2, 1] },
+        { t: '直接再发一条：“？在忙吗”',                 v: [3, 2, 1, 2] }
+      ]
+    },
+    {
+      text: '一群人在一起聊天，你讲了一个自己觉得很好笑的事，但没人笑。你会……',
+      options: [
+        { t: '尴尬地笑笑，然后安静下来。',                       v: [0, 0, 3, 0] },
+        { t: '自己补一句“好吧可能只有我觉得好笑”，然后继续聊别的。', v: [3, 2, 1, 3] },
+        { t: '心里有点难受，但表面上完全看不出来。',             v: [1, 0, 3, 0] },
+        { t: '觉得没关系，本来每个人的笑点就不一样。',           v: [2, 1, 0, 3] }
+      ]
+    },
+    {
+      text: '你在网上看到一条和你观点完全相反的评论，你会……',
+      options: [
+        { t: '忍不住回复，打了一大段字又删掉，最后还是没发。', v: [1, 1, 2, 1] },
+        { t: '直接回复，把自己的观点说清楚。',                 v: [3, 3, 1, 2] },
+        { t: '划走，不想浪费情绪。',                           v: [2, 2, 0, 3] },
+        { t: '截图发给朋友吐槽，但不会在评论区出现。',         v: [1, 2, 1, 1] }
+      ]
+    },
+    {
+      text: '你最近在听一首歌，单曲循环了一整天。有人问你“你在听什么”，你会……',
+      options: [
+        { t: '大方分享，还会把歌推给对方。',                   v: [3, 2, 0, 2] },
+        { t: '说“随便听听”，不太想解释为什么喜欢。',           v: [2, 0, 2, 1] },
+        { t: '有点不好意思，因为这首歌可能有点“土”或者“小众”。', v: [0, 0, 3, 0] },
+        { t: '看是谁问的，懂的人就分享，不懂的就含糊过去。',   v: [2, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '你发了一条动态，过了十分钟只有两个赞。你会……',
+      options: [
+        { t: '有点失落，但告诉自己“又不是为了赞发的”。', v: [1, 1, 2, 1] },
+        { t: '直接删掉，觉得这条不太行。',               v: [0, 0, 3, 0] },
+        { t: '完全不在意，发完就忘了。',                 v: [3, 2, 0, 3] },
+        { t: '会检查一下是不是被限流了。',               v: [1, 0, 3, 1] }
+      ]
+    },
+    {
+      text: '有人对你说：“你好像不太爱表达自己的情绪。”你的真实感受是……',
+      options: [
+        { t: '“确实，我不太习惯让别人看到我情绪不好。”',   v: [1, 0, 3, 1] },
+        { t: '“我只是觉得没必要让所有人都知道。”',         v: [2, 1, 1, 2] },
+        { t: '“其实我表达了啊，只是你没注意到。”',         v: [3, 2, 1, 2] },
+        { t: '“你说得对，我应该多表达一点。”',             v: [1, 1, 2, 1] }
+      ]
+    },
+    {
+      text: '你一个人待着的时候，通常会做什么？',
+      options: [
+        { t: '刷手机，看看别人在干什么，但自己不太发。',             v: [0, 0, 3, 0] },
+        { t: '做自己喜欢的事，听歌、看剧、打游戏，很享受。',         v: [3, 1, 0, 3] },
+        { t: '会想很多事，有时候会突然觉得有点空。',                 v: [1, 1, 2, 1] },
+        { t: '看状态，有时候很享受独处，有时候特别想找人说话。',     v: [2, 2, 1, 2] }
+      ]
+    },
+    {
+      text: '如果要你用一句话形容你在社交媒体上的形象，你会选……',
+      options: [
+        { t: '“看起来什么都好，其实只有我自己知道。”',       v: [0, 0, 3, 0] },
+        { t: '“就是我本人，没什么好藏的。”',                 v: [3, 3, 0, 3] },
+        { t: '“看心情，有时候很活跃，有时候人间蒸发。”',     v: [2, 2, 1, 2] },
+        { t: '“我发的东西都是我精心选过的，但不算假。”',     v: [1, 1, 2, 1] }
+      ]
+    }
+  ];
+
+  /* 各维度理论上下限 */
+  const DIM_MIN = [3, 0, 5, 2];
+  const DIM_MAX = [33, 30, 33, 33];
+  const DIM_NAMES = ['真实呈现', '情绪外露', '表演消耗', '自我关怀'];
+
+  /* 四个选项的颜色（Bento 四色） */
+  const OPT_COLORS = [
+    { main: '#FF8B6A', bg: '#FFF0EB' },  /* A 珊瑚橘 */
+    { main: '#7BA7D7', bg: '#EEF5FB' },  /* B 雾霾蓝 */
+    { main: '#F0C24B', bg: '#FEF8E7' },  /* C 奶油黄 */
+    { main: '#8FBC8F', bg: '#EEF6EE' }   /* D 抹茶绿 */
+  ];
+
+  /* =========================================================
+     二、五种活人感类型
+     ========================================================= */
+  const TYPES = [
+    {
+      id: 'performer',
+      name: '「精修表演者」',
+      proto: [12, 10, 92, 18],
+      line: '你活在镜头里太久了，久到有时候连自己都分不清——哪个才是真的你。',
+      desc: '你非常清楚什么样的内容会得到什么样的反馈。修图、选滤镜、斟酌文案、计算发布时间，这些动作早已内化成肌肉记忆。你不是故意要“假”，你只是太擅长管理别人眼中的自己。但代价是：你越来越难在不需要表演的场合里放松下来。你发的每一条动态都经过了筛选，以至于连“最近怎么样”这个问题，你都会下意识地准备一个“合适的答案”。',
+      traits: [
+        '发朋友圈前会反复修改，发完还会时不时看点赞数',
+        '会区分“大号”和“小号”，甚至对不同分组展示不同的自己',
+        '独处时刷手机的时间远多于做真正想做的事',
+        '别人觉得你“生活很精彩”，但你自己知道那些精彩有多少是摆出来的'
+      ],
+      misunderstand: '别人以为你很自信、很会生活、很“现充”。其实你比谁都清楚，那些精心呈现的碎片和真实的日常之间隔了多远。偶尔有人夸你“好真实”，你心里会咯噔一下——因为你知道那也是一场表演。',
+      boundary: '你的活人感被压缩在一个很小的角落里：可能是小号里的一张随手拍，可能是深夜发给一个人的语音，可能是你删掉的那条动态。那些没有被展示出来的部分，才是你真正在呼吸的地方。',
+      keyword: '「我修的不是图，是我怕被看穿的裂缝。」'
+    },
+    {
+      id: 'half',
+      name: '「半熟真人」',
+      proto: [58, 45, 48, 62],
+      line: '你在“想被看见”和“怕被看见”之间来回摇摆——真实和体面，你两个都想要。',
+      desc: '你不是不会真实，你只是在选择性地真实。对最亲近的人，你几乎不设防；对泛泛之交，你会自动切换到“社交模式”。你知道哪些话题可以聊、哪些情绪可以露、哪些脆弱只能在特定的人面前出现。这种分寸感让你在大多数关系里都游刃有余，但也让你偶尔感到疲惫——因为切换本身就需要力气。',
+      traits: [
+        '对不同的人展示不同浓度的自己，切换很自然',
+        '会发一些“不太完美”的动态，但不会发最崩溃的时刻',
+        '开心的时候愿意分享，难过的时候更倾向于自己消化',
+        '有时候觉得“如果能一直不用切换就好了”，但做不到'
+      ],
+      misunderstand: '有人觉得你“不够真诚”，因为你好像总是保留了一部分。但也有人觉得你“很真实”，因为你确实不装。这两种评价你都听过，你知道自己就在中间——一个还没决定要不要完全打开的人。',
+      boundary: '你的活人感是分层的：最外层是得体的社交形象，中间层是日常的喜怒哀乐，最里面那一层，只有极少数人进去过。你不是不愿意打开最里面那层，你只是在等一个让你觉得足够安全的人。',
+      keyword: '「我不是不真实，我只是在决定对谁真实。」'
+    },
+    {
+      id: 'feral',
+      name: '「野生人类」',
+      proto: [92, 82, 15, 75],
+      line: '你想发什么就发什么，想说什么就说什么——活人感对你来说不是需要努力的事。',
+      desc: '你在社交媒体上的状态和你在现实中的状态高度一致。你不会花太多时间想“别人会怎么看我”，因为你更在意的是“我现在想不想发”。你的动态可能很杂乱、很不精致，但认识你的人一看就知道那是你。你有很强的自我接纳能力，允许自己有不完美的时刻，也允许别人看到那些时刻。',
+      traits: [
+        '发动态几乎不修图，文案常常是随口一句话或者干脆没有',
+        '情绪来得快去得也快，不会在心里反复咀嚼',
+        '不太在意点赞数和评论量，发完就放下了',
+        '朋友说你“很好懂”，你觉得这是夸奖'
+      ],
+      misunderstand: '有人觉得你“太随意”或者“不够成熟”，好像成年人就应该管理好自己的公众形象。但你不这么认为——你觉得那些精修和包装才是消耗。偶尔也会有人羡慕你“怎么能这么松弛”，你只是笑笑，因为你从来没觉得这需要努力。',
+      boundary: '你的活人感几乎不需要边界，因为你就是你。但这不意味着你没有敏感的地方——你只是不觉得那些敏感需要藏起来。如果有人因为你的真实而不喜欢你，你会觉得“那挺好的，省得以后麻烦”。',
+      keyword: '「我没什么好藏的，藏起来太累了。」'
+    },
+    {
+      id: 'ghost',
+      name: '「潜水活人」',
+      proto: [25, 15, 82, 30],
+      line: '你在别人的动态里活着，但自己的那一页几乎空白——不是没话说，是不想说。',
+      desc: '你刷很多、看很多、想很多，但很少发。你的社交媒体账号看起来像是“已停更”，但你在别人的评论区里偶尔出现。你不是不喜欢表达，你只是不太相信“表达”这件事的价值。你觉得把自己暴露在公开场合是一种风险——可能会被评判、被误解、被遗忘。所以你选择看，选择听，选择在自己的世界里安静地待着。',
+      traits: [
+        '朋友圈可能已经很久没更新了，或者只发很少的内容',
+        '会认真看别人的动态，但很少点赞和评论',
+        '有想说的话，但打开输入框又觉得“算了”',
+        '比起公开发布，更愿意在私聊里和人交流'
+      ],
+      misunderstand: '别人可能觉得你“消失了”或者“不关心大家”。其实你一直都在，你只是觉得没有什么值得公开发的东西。有时候你也会羡慕那些可以随意分享的人，但更多时候你觉得“不分享也挺好的”。',
+      boundary: '你的活人感不在公开展示里，而在你和少数人的私密对话中。你不是没有情绪和想法，你只是把“被看见”的范围控制得很小——因为小，才安全。',
+      keyword: '「我在别人的动态里活着，也在自己的沉默里活着。」'
+    },
+    {
+      id: 'mood',
+      name: '「情绪潮汐人」',
+      proto: [62, 78, 38, 45],
+      line: '你的活人感浓度随着心情涨落——开心的时候全世界都是朋友，低落的时候谁都不想理。',
+      desc: '你的社交状态非常依赖当下的能量水平。心情好的时候你会发很多、聊很多、分享很多；情绪低落的时候你会突然消失，连消息都不想回。你不是故意忽冷忽热，你只是没有能力在能量低的时候伪装热情。你渴望很深的连接，但你也需要很大的空间——这两件事在你身上同时成立。',
+      traits: [
+        '有时候一天发好几条动态，有时候半个月一条都没有',
+        '对同一个人，不同时期回复消息的速度和热情完全不同',
+        '情绪好的时候什么都能聊，情绪差的时候连“在吗”都不想回',
+        '事后会为自己的忽冷忽热感到愧疚，但下次依然如此'
+      ],
+      misunderstand: '别人会觉得你“捉摸不透”“忽冷忽热”“不够稳定”。其实你只是没有能力在能量低的时候伪装热情——你不是不想，是真的做不到。你的沉默不是拒绝，是耗尽了。',
+      boundary: '你的活人感是一条水位线，取决于你此刻还剩多少力气。很多人误以为那是你的态度，其实那是你的电量。学会提前告诉别人“我现在电量很低”，会救下很多关系。',
+      keyword: '「我不是忽冷忽热，我只是潮汐。」'
+    }
+  ];
+
+  /* =========================================================
+     三、状态与元素
+     ========================================================= */
+  const state = {
+    index: 0,
+    answers: new Array(QUESTIONS.length).fill(null),
+    animating: false
+  };
+
+  const els = {
+    screens:      document.querySelectorAll('.screen'),
+    dotProgress:  document.getElementById('dotProgress'),
+    qIndex:       document.getElementById('qIndex'),
+    qNum:         document.getElementById('qNum'),
+    qText:        document.getElementById('qText'),
+    options:      document.getElementById('options'),
+    qcard:        document.getElementById('qcard'),
+    backBtn:      document.getElementById('backBtn'),
+    startBtn:     document.getElementById('startBtn'),
+    retryBtn:     document.getElementById('retryBtn'),
+    shareBtn:     document.getElementById('shareBtn'),
+    radar:        document.getElementById('radar'),
+    dims:         document.getElementById('dims'),
+    resName:      document.getElementById('resName'),
+    resLine:      document.getElementById('resLine'),
+    resDesc:      document.getElementById('resDesc'),
+    resTraits:    document.getElementById('resTraits'),
+    resMis:       document.getElementById('resMis'),
+    resBoundary:  document.getElementById('resBoundary'),
+    resKeyword:   document.getElementById('resKeyword'),
+    toast:        document.getElementById('toast')
+  };
+
+  /* =========================================================
+     四、工具
+     ========================================================= */
+  function showScreen(id) {
+    els.screens.forEach(function (s) {
+      s.classList.toggle('active', s.id === id);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    els.toast.textContent = msg;
+    els.toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      els.toast.classList.remove('show');
+    }, 2000);
+  }
+
+  /* =========================================================
+     五、答题流程
+     ========================================================= */
+  function renderDots() {
+    els.dotProgress.innerHTML = '';
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      if (state.answers[i] !== null) d.classList.add('done');
+      if (i === state.index) d.classList.add('current');
+      els.dotProgress.appendChild(d);
+    }
+  }
+
+  function renderQuestion(i) {
+    const q = QUESTIONS[i];
+
+    els.qIndex.textContent = pad2(i + 1);
+    els.qNum.textContent   = pad2(i + 1);
+    els.qText.textContent  = q.text;
+
+    renderDots();
+
+    els.options.innerHTML = '';
+    q.options.forEach(function (opt, idx) {
+      const color = OPT_COLORS[idx % OPT_COLORS.length];
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option';
+      btn.style.setProperty('--opt-color', color.main);
+      btn.style.setProperty('--opt-bg', color.bg);
+      if (state.answers[i] === idx) btn.classList.add('selected');
+
+      const dot = document.createElement('span');
+      dot.className = 'dot-color';
+
+      const txt = document.createElement('span');
+      txt.className = 'otext';
+      txt.textContent = opt.t;
+
+      btn.appendChild(dot);
+      btn.appendChild(txt);
+      btn.addEventListener('click', function () { chooseOption(idx, btn); });
+      els.options.appendChild(btn);
+    });
+
+    if (i > 0) els.backBtn.classList.add('show');
+    else       els.backBtn.classList.remove('show');
+  }
+
+  function chooseOption(optIdx, btn) {
+    if (state.animating) return;
+
+    state.answers[state.index] = optIdx;
+    btn.classList.add('selected');
+    renderDots();
+
+    state.animating = true;
+
+    setTimeout(function () {
+      if (state.index < QUESTIONS.length - 1) {
+        state.index += 1;
+        transitionToNext();
+      } else {
+        goLoading();
+      }
+    }, 300);
+  }
+
+  function transitionToNext() {
+    const card = els.qcard;
+    card.classList.add('out');
+
+    setTimeout(function () {
+      renderQuestion(state.index);
+
+      card.classList.remove('out');
+      card.classList.add('pre');
+      void card.offsetWidth;
+      card.classList.remove('pre');
+
+      state.animating = false;
+    }, 265);
+  }
+
+  function goBack() {
+    if (state.animating || state.index === 0) return;
+    state.animating = true;
+    state.index -= 1;
+    transitionToNext();
+  }
+
+  /* =========================================================
+     六、计分与匹配（归一化加权距离 + 区分度加成）
+     ========================================================= */
+  function computeScores() {
+    const raw = [0, 0, 0, 0];
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      const ans = state.answers[i];
+      const opt = QUESTIONS[i].options[ans === null ? 0 : ans];
+      for (let d = 0; d < 4; d++) raw[d] += opt.v[d];
+    }
+    return raw.map(function (r, d) {
+      const span = DIM_MAX[d] - DIM_MIN[d];
+      const pct = (r - DIM_MIN[d]) / span * 100;
+      return Math.round(Math.max(0, Math.min(100, pct)));
+    });
+  }
+
+  function matchType(scores) {
+    const norm = scores.map(function (s) { return s / 100; });
+
+    /* 所有类型在各维度的平均值 */
+    const dimAvgs = [0, 0, 0, 0];
+    TYPES.forEach(function (t) {
+      for (let d = 0; d < 4; d++) dimAvgs[d] += t.proto[d] / 100;
+    });
+    dimAvgs.forEach(function (a, d) { dimAvgs[d] /= TYPES.length; });
+
+    let best = TYPES[0];
+    let bestScore = Infinity;
+
+    TYPES.forEach(function (type) {
+      const protoNorm = type.proto.map(function (p) { return p / 100; });
+
+      /* 标志性维度加权 */
+      const weights = [0, 0, 0, 0];
+      let weightSum = 0;
+      for (let d = 0; d < 4; d++) {
+        const dev = Math.abs(protoNorm[d] - dimAvgs[d]);
+        weights[d] = 1 + dev * 3;
+        weightSum += weights[d];
+      }
+
+      /* 加权欧氏距离 */
+      let dist = 0;
+      for (let d = 0; d < 4; d++) {
+        const diff = norm[d] - protoNorm[d];
+        dist += weights[d] * diff * diff;
+      }
+      dist /= weightSum;
+
+      /* 区分度加成：原型越有辨识度，越容易被命中 */
+      let variance = 0;
+      for (let d = 0; d < 4; d++) {
+        variance += Math.pow(protoNorm[d] - 0.5, 2);
+      }
+      variance /= 4;
+      const bonus = 1 - variance * 0.3;
+
+      const finalScore = dist * bonus;
+
+      if (finalScore < bestScore) {
+        bestScore = finalScore;
+        best = type;
+      }
+    });
+
+    return best;
+  }
+
+  /* =========================================================
+     七、雷达图（浅色主题）
+     ========================================================= */
+  function setupRadar(values) {
+    const canvas = els.radar;
+    if (!canvas || !canvas.parentElement) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    let wrapWidth = canvas.parentElement.clientWidth;
+
+    if (wrapWidth <= 0) {
+      wrapWidth = Math.min(window.innerWidth - 40, 480) - 64;
+    }
+
+    const size = Math.min(Math.max(wrapWidth, 200), 320);
+
+    canvas.style.width  = size + 'px';
+    canvas.style.height = size + 'px';
+    canvas.width  = Math.round(size * dpr);
+    canvas.height = Math.round(size * dpr);
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    animateRadar(ctx, size, values);
+  }
+
+  function drawRadar(ctx, size, values) {
+    ctx.clearRect(0, 0, size, size);
+
+    const cx = size / 2;
+    const cy = size / 2;
+    const R  = size * 0.27;
+    const angles = [-Math.PI / 2, 0, Math.PI / 2, Math.PI];
+
+    /* 网格环 */
+    for (let ring = 1; ring <= 4; ring++) {
+      const r = R * ring / 4;
+      ctx.beginPath();
+      for (let i = 0; i < 4; i++) {
+        const x = cx + Math.cos(angles[i]) * r;
+        const y = cy + Math.sin(angles[i]) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else         ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = ring === 4 ? 'rgba(43,42,40,0.16)' : 'rgba(43,42,40,0.07)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    /* 轴线 */
+    for (let i = 0; i < 4; i++) {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(angles[i]) * R, cy + Math.sin(angles[i]) * R);
+      ctx.strokeStyle = 'rgba(43,42,40,0.08)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    /* 数据点 */
+    const pts = [];
+    for (let i = 0; i < 4; i++) {
+      const v = Math.max(0, Math.min(100, values[i])) / 100;
+      const r = R * v;
+      pts.push([
+        cx + Math.cos(angles[i]) * r,
+        cy + Math.sin(angles[i]) * r
+      ]);
+    }
+
+    /* 填充 */
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+      if (i === 0) ctx.moveTo(pts[i][0], pts[i][1]);
+      else         ctx.lineTo(pts[i][0], pts[i][1]);
+    }
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
+    grad.addColorStop(0, 'rgba(255,139,106,0.34)');
+    grad.addColorStop(1, 'rgba(123,167,215,0.26)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    /* 描边 */
+    ctx.strokeStyle = '#FF8B6A';
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    /* 顶点 */
+    for (let i = 0; i < 4; i++) {
+      ctx.beginPath();
+      ctx.arc(pts[i][0], pts[i][1], 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.strokeStyle = '#FF8B6A';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    /* 标签 */
+    ctx.font = '600 11.5px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = '#6B6862';
+    const off = 13;
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(DIM_NAMES[0], cx, cy - R - off + 5);
+
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(DIM_NAMES[1], cx + R + off, cy);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText(DIM_NAMES[2], cx, cy + R + off - 3);
+
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(DIM_NAMES[3], cx - R - off, cy);
+  }
+
+  function animateRadar(ctx, size, target) {
+    const duration = 880;
+    const start = performance.now();
+
+    function frame(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const current = target.map(function (v) { return v * eased; });
+      drawRadar(ctx, size, current);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  /* =========================================================
+     八、结果渲染
+     ========================================================= */
+  function renderResult() {
+    const scores = computeScores();
+    const type = matchType(scores);
+
+    els.resName.textContent     = type.name;
+    els.resLine.textContent     = type.line;
+    els.resDesc.textContent     = type.desc;
+    els.resMis.textContent      = type.misunderstand;
+    els.resBoundary.textContent = type.boundary;
+    els.resKeyword.textContent  = type.keyword;
+
+    els.resTraits.innerHTML = '';
+    type.traits.forEach(function (t) {
+      const li = document.createElement('li');
+      li.textContent = t;
+      els.resTraits.appendChild(li);
+    });
+
+    /* 四维 Bento 网格 */
+    els.dims.innerHTML = '';
+    DIM_NAMES.forEach(function (name, i) {
+      const cell = document.createElement('div');
+      cell.className = 'dim-cell d' + i;
+
+      const head = document.createElement('div');
+      head.className = 'dim-name';
+      const nm = document.createElement('span');
+      nm.textContent = name;
+      const val = document.createElement('b');
+      val.textContent = scores[i];
+      head.appendChild(nm);
+      head.appendChild(val);
+
+      const track = document.createElement('div');
+      track.className = 'dim-track';
+      const fill = document.createElement('div');
+      fill.className = 'dim-fill';
+      track.appendChild(fill);
+
+      cell.appendChild(head);
+      cell.appendChild(track);
+      els.dims.appendChild(cell);
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          fill.style.width = scores[i] + '%';
+        });
+      });
+    });
+
+    /* 雷达图 */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        setupRadar(scores);
+      });
+    });
+  }
+
+  function goLoading() {
+    showScreen('screen-loading');
+    state.animating = true;
+
+    setTimeout(function () {
+      renderResult();
+      showScreen('screen-result');
+      state.animating = false;
+    }, 2100);
+  }
+
+  /* =========================================================
+     九、重置 / 分享
+     ========================================================= */
+  function resetAll() {
+    state.index = 0;
+    state.answers = new Array(QUESTIONS.length).fill(null);
+    state.animating = false;
+
+    els.dims.innerHTML = '';
+    els.options.innerHTML = '';
+    els.qText.textContent = '';
+    els.resTraits.innerHTML = '';
+    els.dotProgress.innerHTML = '';
+  }
+
+  function startQuiz() {
+    resetAll();
+    showScreen('screen-quiz');
+    renderQuestion(0);
+  }
+
+  function shareResult() {
+    const typeName = els.resName.textContent;
+    const typeLine = els.resLine.textContent;
+    const text = '我的活人感类型是' + typeName + '\n' + typeLine +
+                 '\n\n测测你的“活人感”浓度：你在朋友圈里还剩多少真实？\n' + location.href;
+
+    if (navigator.share) {
+      navigator.share({ title: '测测你的活人感浓度', text: text }).catch(function () {});
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast('结果已复制，去粘贴分享吧');
+      }).catch(function () { fallbackCopy(text); });
+      return;
+    }
+
+    fallbackCopy(text);
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('结果已复制，去粘贴分享吧');
+    } catch (e) {
+      showToast('长按页面可手动复制结果');
+    }
+    document.body.removeChild(ta);
+  }
+
+  /* =========================================================
+     十、事件绑定
+     ========================================================= */
+  els.startBtn.addEventListener('click', startQuiz);
+  els.backBtn.addEventListener('click', goBack);
+  els.retryBtn.addEventListener('click', function () {
+    resetAll();
+    showScreen('screen-intro');
+  });
+  els.shareBtn.addEventListener('click', shareResult);
+
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    if (!document.getElementById('screen-result').classList.contains('active')) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      const scores = computeScores();
+      setupRadar(scores);
+    }, 220);
+  });
+
+})();
+</script>
+</body>
+</html>
