@@ -3,33 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#F5F3EF">
-<title>测测你的“活人感”浓度：你在朋友圈里还剩多少真实？</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<meta name="theme-color" content="#12100E">
+<title>测测你是哪种导演</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css">
 <style>
-  /* ========== 得意黑（标题字体） ========== */
-  @font-face {
-    font-family: 'Smiley Sans';
-    src: url('https://cdn.jsdelivr.net/npm/smiley-sans@2.0.1/dist/SmileySans-Oblique.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@v2.0.1/dist/SmileySans-Oblique.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
   :root {
-    --bg:      #F5F3EF;
-    --card:    #FFFFFF;
-    --ink:     #2B2A28;
-    --ink-2:   #6B6862;
-    --ink-3:   #A8A39A;
-    --coral:   #FF8B6A;
-    --blue:    #7BA7D7;
-    --yellow:  #F0C24B;
-    --matcha:  #8FBC8F;
-    --line:    #E8E4DC;
-    --font-display: 'Smiley Sans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    --font-body: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+    --bg: #12100E;
+    --bg-2: #1A1714;
+    --card: #1E1A16;
+    --card-2: #252019;
+    --line: #3A322A;
+    --line-soft: #2A241E;
+    --text: #F0E6D2;
+    --text-dim: #B8AA96;
+    --text-mute: #7A6E60;
+    --amber: #E8A040;
+    --amber-soft: rgba(232, 160, 64, 0.14);
+    --accent: #E8A040;
+    --accent-soft: rgba(232, 160, 64, 0.12);
   }
 
   * {
@@ -38,326 +30,378 @@
     touch-action: manipulation;
   }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-  }
+  html, body { margin: 0; padding: 0; }
 
   body {
-    color: var(--ink);
-    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'LXGW WenKai', -apple-system, BlinkMacSystemFont, "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    line-height: 1.6;
+    transition: background-color 0.9s ease;
+  }
+
+  /* 放映机光晕 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%;
+    height: 60vh;
+    background: radial-gradient(ellipse 50% 60% at 50% 0%,
+      rgba(232, 160, 64, 0.10) 0%,
+      rgba(232, 160, 64, 0.04) 35%,
+      transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 底部暗角 */
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30vh;
+    background: radial-gradient(ellipse 80% 100% at 50% 100%,
+      rgba(0, 0, 0, 0.35) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .app {
+    position: relative;
+    z-index: 1;
     max-width: 480px;
     margin: 0 auto;
-    padding: 28px 20px calc(44px + env(safe-area-inset-bottom));
+    padding: 26px 22px calc(40px + env(safe-area-inset-bottom));
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
 
-  /* ========== 屏幕切换 ========== */
   .screen { display: none; flex: 1; flex-direction: column; }
-  .screen.active { display: flex; animation: screenIn 0.45s cubic-bezier(0.22,0.68,0.32,1) both; }
+  .screen.active {
+    display: flex;
+    animation: screenIn 0.5s cubic-bezier(0.22, 0.68, 0.32, 1) both;
+  }
   @keyframes screenIn {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ========== 首页 ========== */
+  /* =========================================================
+     首页
+     ========================================================= */
   #screen-intro.active {
     justify-content: center;
-    padding-bottom: 5vh;
+    padding-bottom: 6vh;
   }
 
-  .tag-rot {
-    display: inline-block;
-    align-self: flex-start;
-    font-size: 12px;
-    letter-spacing: 0.16em;
-    color: var(--ink-2);
-    background: #fff;
-    border: 1.5px solid var(--line);
-    border-radius: 999px;
-    padding: 7px 15px;
-    transform: rotate(-1.6deg);
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: 40px;
-    line-height: 1.28;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-    margin: 0 0 28px;
-    text-align: left;
-  }
-
-  .hero-title .mark {
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(180deg,
-      transparent 58%,
-      var(--yellow) 58%,
-      var(--yellow) 90%,
-      transparent 90%);
-    padding: 0 4px;
-  }
-
-  /* Bento 小格子 */
-  .bento-row {
-    display: flex;
-    gap: 9px;
+  .page-mark {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--text-mute);
     margin-bottom: 22px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
   }
 
-  .bento-chip {
-    flex: 1;
-    border-radius: 20px;
-    padding: 16px 14px;
-    border: 1.5px solid transparent;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .intro-title {
+    font-size: 32px;
+    line-height: 1.55;
+    color: var(--text);
+    margin: 0 0 28px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
   }
 
-  .chip-coral  { background: #FFE8E0; border-color: #FFD2C4; }
-  .chip-blue   { background: #E5F0FA; border-color: #CFE0F2; }
-  .chip-matcha { background: #E6F3E6; border-color: #CFE7CF; }
-
-  .chip-num {
-    font-family: var(--font-display);
-    font-size: 27px;
-    line-height: 1;
-    font-weight: 400;
-    color: var(--ink);
-  }
-
-  .chip-label {
-    font-size: 11.5px;
-    color: var(--ink-2);
-    letter-spacing: 0.06em;
-  }
-
-  .quote-card {
-    background: #fff;
-    border-radius: 22px;
-    padding: 22px 22px 22px 24px;
-    border: 1.5px solid var(--line);
-    font-size: 14.5px;
-    line-height: 2;
-    color: var(--ink-2);
-    letter-spacing: 0.03em;
-    margin-bottom: 30px;
+  .intro-title .accent-word {
+    color: var(--amber);
     position: relative;
+    display: inline-block;
   }
 
-  .quote-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 22px;
-    bottom: 22px;
-    width: 4px;
-    border-radius: 0 4px 4px 0;
-    background: var(--coral);
+  .poem {
+    font-size: 15px;
+    line-height: 2.15;
+    color: var(--text-dim);
+    margin: 0 0 36px;
+    padding-left: 18px;
+    border-left: 1px solid var(--amber);
+    letter-spacing: 0.04em;
   }
 
-  .btn-main {
-    width: 100%;
-    padding: 19px 24px;
-    border-radius: 22px;
-    border: none;
-    background: var(--ink);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    cursor: pointer;
-    font-family: inherit;
+  .meta-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 9px;
-    transition: transform 0.16s ease, background 0.16s ease;
+    gap: 10px;
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-bottom: 30px;
+    letter-spacing: 0.08em;
+    font-family: 'Courier New', monospace;
+  }
+  .meta-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--text-mute);
+    border-radius: 50%;
   }
 
-  .btn-main:active {
-    transform: scale(0.975);
-    background: #1A1918;
+  .btn-primary {
+    position: relative;
+    width: 100%;
+    padding: 17px 20px;
+    border: 1px solid var(--amber);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--amber);
+    font-size: 15.5px;
+    letter-spacing: 0.24em;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    transition: background 0.25s ease, color 0.25s ease, letter-spacing 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--amber);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.22, 0.68, 0.32, 1);
+    z-index: -1;
+  }
+  .btn-primary:active {
+    color: var(--bg);
+    letter-spacing: 0.28em;
+  }
+  .btn-primary:active::before {
+    transform: translateY(0);
   }
 
-  .btn-main .arrow {
-    font-size: 17px;
-    transition: transform 0.25s ease;
-  }
-
-  .btn-main:active .arrow {
-    transform: translateX(3px);
-  }
-
-  .fine-print {
-    margin: 20px 0 0;
+  .disclaimer {
+    margin: 24px 0 0;
     font-size: 11px;
-    line-height: 1.8;
-    color: var(--ink-3);
+    line-height: 1.85;
+    color: var(--text-mute);
     text-align: center;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
   }
 
-  /* ========== 答题页 ========== */
-  .quiz-head {
+  /* =========================================================
+     答题页
+     ========================================================= */
+  .quiz-top {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 4px 0 22px;
+    padding: 6px 0 26px;
     flex: 0 0 auto;
   }
 
-  .dot-progress {
+  .progress-track {
+    flex: 1;
+    height: 14px;
     display: flex;
-    gap: 4px;
-    flex: 1;
+    align-items: center;
+    gap: 3px;
   }
-
-  .dot {
+  .progress-fill {
+    height: 100%;
+    width: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--amber) 0px,
+      var(--amber) 6px,
+      transparent 6px,
+      transparent 10px
+    );
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.9;
+  }
+  .progress-rest {
     flex: 1;
-    height: 6px;
-    border-radius: 3px;
+    height: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--line) 0px,
+      var(--line) 6px,
+      transparent 6px,
+      transparent 10px
+    );
+    opacity: 0.5;
+  }
+  .progress-wrap {
+    flex: 1;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 0;
+  }
+  .progress-inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    gap: 3px;
+    overflow: hidden;
+  }
+  .progress-piece {
+    flex: 0 0 6px;
+    height: 60%;
     background: var(--line);
-    transition: background 0.35s ease, transform 0.35s ease;
+    transition: background 0.4s ease;
   }
-
-  .dot.done { background: var(--coral); }
-  .dot.current {
-    background: var(--coral);
-    transform: scaleY(1.6);
-    border-radius: 4px;
+  .progress-piece.filled {
+    background: var(--amber);
   }
 
   .counter {
     font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--text-mute);
+    font-family: 'Courier New', monospace;
     white-space: nowrap;
-    font-weight: 500;
-  }
-
-  .counter #qIndex {
-    color: var(--ink);
     font-weight: 700;
-    font-size: 13px;
+  }
+  .counter #qIndex {
+    color: var(--amber);
+    font-size: 14px;
   }
 
+  /* 题目卡片 —— 票根感 */
   .qcard {
     position: relative;
     background: var(--card);
-    border: 1.5px solid var(--line);
-    border-radius: 26px;
-    padding: 26px 22px 22px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 34px 22px 24px;
     min-height: 400px;
+    transition: opacity 0.26s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
     flex: 0 0 auto;
-    transition: opacity 0.26s cubic-bezier(0.4,0,0.2,1),
-                transform 0.26s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 12px 40px -20px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(240, 230, 210, 0.04);
   }
-
-  .qcard.out {
-    opacity: 0;
-    transform: translateX(-28px);
+  /* 顶部虚线撕裂 */
+  .qcard::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background-image: radial-gradient(circle, var(--bg) 4px, transparent 4.5px);
+    background-size: 12px 12px;
+    background-position: 0 0;
+    background-repeat: repeat-x;
   }
+  .qcard.out { opacity: 0; transform: translateX(-30px); }
+  .qcard.pre { transition: none !important; opacity: 0; transform: translateX(30px); }
 
-  .qcard.pre {
-    transition: none !important;
-    opacity: 0;
-    transform: translateX(28px);
-  }
-
-  .qnum {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    color: var(--ink);
-    background: var(--yellow);
-    border-radius: 8px;
-    padding: 3px 10px;
-    margin-bottom: 16px;
-    font-weight: 400;
+  .scene-tag {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    font-size: 10px;
+    letter-spacing: 0.34em;
+    color: var(--amber);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    opacity: 0.85;
   }
 
   .qtext {
-    font-size: 16.5px;
-    line-height: 1.75;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 22px;
-    letter-spacing: 0.005em;
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 1.85;
+    font-weight: 700;
+    color: var(--text);
+    margin: 14px 0 26px;
+    letter-spacing: 0.01em;
   }
 
   .options {
     display: flex;
     flex-direction: column;
+    gap: 2px;
   }
 
   .option {
+    position: relative;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 13px;
     width: 100%;
     text-align: left;
-    padding: 15px 16px;
-    margin-bottom: 10px;
-    border-radius: 18px;
-    background: #FCFBF9;
-    border: 1.5px solid var(--line);
-    color: var(--ink-2);
-    font-size: 14px;
-    line-height: 1.62;
+    padding: 13px 4px;
+    border: none;
+    border-bottom: 1px solid var(--line-soft);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14.5px;
+    line-height: 1.7;
     font-family: inherit;
     cursor: pointer;
+    z-index: 0;
+    transition: color 0.22s ease, padding 0.22s ease;
     -webkit-appearance: none;
     appearance: none;
-    transition: background 0.22s ease, border-color 0.22s ease,
-                color 0.22s ease, transform 0.14s ease;
   }
+  .option:last-child { border-bottom: none; }
 
-  .option:last-child { margin-bottom: 0; }
-
-  .option:active { transform: scale(0.985); }
-
-  .option .dot-color {
-    flex: 0 0 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--opt-color, #ccc);
-    margin-top: 6px;
-    transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1);
+  .option::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: 4px;
+    bottom: 4px;
+    background: var(--amber-soft);
+    border-left: 2px solid var(--amber);
+    z-index: -1;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transform-origin: left center;
+    transition: opacity 0.25s ease, transform 0.25s ease;
   }
-
-  .option .otext { flex: 1; }
-
+  .option.selected::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
   .option.selected {
-    background: var(--opt-bg, #F0F0F0);
-    border-color: var(--opt-color, #999);
-    color: var(--ink);
-    font-weight: 500;
+    color: var(--text);
+    font-weight: 700;
+    padding-left: 6px;
   }
 
-  .option.selected .dot-color {
-    transform: scale(1.5);
+  .option .tag {
+    flex: 0 0 8px;
+    height: 8px;
+    border: 1px solid var(--text-mute);
+    border-radius: 50%;
+    margin-top: 8px;
+    background: transparent;
+    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .option.selected .tag {
+    background: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 10px rgba(232, 160, 64, 0.7);
   }
 
   .back-btn {
@@ -365,178 +409,281 @@
     display: block;
     background: transparent;
     border: none;
-    color: var(--ink-3);
-    font-size: 13px;
-    letter-spacing: 0.06em;
+    color: var(--text-mute);
+    font-size: 12px;
+    letter-spacing: 0.12em;
     font-family: inherit;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 8px 14px;
     transition: color 0.2s ease, opacity 0.25s ease;
     opacity: 0;
     pointer-events: none;
   }
+  .back-btn.show { opacity: 1; pointer-events: auto; }
+  .back-btn:active { color: var(--amber); }
 
-  .back-btn.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .back-btn:active { color: var(--ink-2); }
-
-  /* ========== 分析中 ========== */
+  /* =========================================================
+     分析中
+     ========================================================= */
   .loading-inner {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 34px;
+    gap: 40px;
     padding-bottom: 8vh;
   }
 
-  .loader-dots {
-    display: flex;
-    gap: 10px;
-  }
-
-  .loader-dots span {
-    width: 12px;
-    height: 12px;
+  .reel {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--line);
     border-radius: 50%;
-    animation: bounce 1.3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spinCW 3s linear infinite;
   }
-
-  .loader-dots span:nth-child(1) { background: var(--coral);  animation-delay: 0s; }
-  .loader-dots span:nth-child(2) { background: var(--blue);   animation-delay: 0.16s; }
-  .loader-dots span:nth-child(3) { background: var(--yellow); animation-delay: 0.32s; }
-  .loader-dots span:nth-child(4) { background: var(--matcha); animation-delay: 0.48s; }
-
-  @keyframes bounce {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
-    30%           { transform: translateY(-13px); opacity: 1; }
+  .reel::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1.5px solid var(--amber);
+    border-radius: 50%;
+    opacity: 0.7;
   }
+  .reel::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--amber);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 16px var(--amber);
+  }
+  .reel-holes {
+    position: absolute;
+    inset: 4px;
+    animation: spinCCW 3s linear infinite;
+  }
+  .reel-holes span {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--line);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin: -3px 0 0 -3px;
+  }
+  .reel-holes span:nth-child(1) { transform: rotate(0deg)   translateY(-27px); }
+  .reel-holes span:nth-child(2) { transform: rotate(90deg)  translateY(-27px); }
+  .reel-holes span:nth-child(3) { transform: rotate(180deg) translateY(-27px); }
+  .reel-holes span:nth-child(4) { transform: rotate(270deg) translateY(-27px); }
+
+  @keyframes spinCW  { to { transform: rotate(360deg); } }
+  @keyframes spinCCW { to { transform: rotate(-360deg); } }
 
   .loading-text {
-    font-family: var(--font-display);
-    font-size: 17px;
-    letter-spacing: 0.12em;
-    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    color: var(--text-dim);
     margin: 0;
     animation: breathe 2.2s ease-in-out infinite;
+    font-family: 'Courier New', monospace;
   }
-
   @keyframes breathe {
     0%, 100% { opacity: 0.5; }
     50%      { opacity: 1; }
   }
 
-  /* ========== 结果页 ========== */
-  .res-tag {
-    display: inline-block;
-    align-self: flex-start;
-    font-size: 11.5px;
-    letter-spacing: 0.16em;
-    color: var(--ink-2);
-    background: #fff;
-    border: 1.5px solid var(--line);
-    border-radius: 999px;
-    padding: 6px 14px;
-    margin-bottom: 16px;
-    font-weight: 500;
-  }
-
-  .res-name {
-    font-family: var(--font-display);
-    font-size: 38px;
-    line-height: 1.28;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-    margin: 0 0 18px;
-    text-align: left;
-  }
-
-  .res-line {
-    font-size: 14.5px;
-    line-height: 1.85;
-    color: var(--ink-2);
-    margin: 0 0 26px;
-    letter-spacing: 0.01em;
-    background: #fff;
-    border-radius: 20px;
-    padding: 20px 22px;
-    border: 1.5px solid var(--line);
-  }
-
-  .radar-card {
-    background: #fff;
-    border: 1.5px solid var(--line);
-    border-radius: 24px;
-    padding: 16px 12px;
-    margin-bottom: 16px;
-    pointer-events: none;
-  }
-
-  #radar { display: block; margin: 0 auto; }
-
-  /* 四维 Bento 网格 */
-  .dim-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-    margin-bottom: 18px;
-  }
-
-  .dim-cell {
-    border-radius: 18px;
-    padding: 15px 15px 16px;
-    border: 1.5px solid transparent;
-  }
-
-  .dim-cell.d0 { background: #FFE8E0; border-color: #FFD2C4; }
-  .dim-cell.d1 { background: #E5F0FA; border-color: #CFE0F2; }
-  .dim-cell.d2 { background: #FEF6E0; border-color: #F5E6BC; }
-  .dim-cell.d3 { background: #E6F3E6; border-color: #CFE7CF; }
-
-  .dim-name {
-    font-size: 12px;
-    color: var(--ink-2);
-    letter-spacing: 0.06em;
-    margin-bottom: 9px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .dim-name b {
-    font-family: var(--font-display);
-    font-size: 19px;
-    color: var(--ink);
-    font-weight: 400;
-    line-height: 1;
-  }
-
-  .dim-track {
-    height: 5px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.75);
+  /* =========================================================
+     结果页
+     ========================================================= */
+  .result-head {
+    text-align: center;
+    margin-bottom: 22px;
+    padding: 30px 20px 28px;
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    transition: background-color 1s ease, border-color 1s ease;
+    position: relative;
     overflow: hidden;
   }
-
-  .dim-fill {
-    height: 100%;
-    width: 0;
-    border-radius: 4px;
-    transition: width 0.95s cubic-bezier(0.22,0.68,0.32,1);
+  .result-head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transition: background 1s ease;
   }
 
-  .d0 .dim-fill { background: var(--coral); }
-  .d1 .dim-fill { background: var(--blue); }
-  .d2 .dim-fill { background: var(--yellow); }
-  .d3 .dim-fill { background: var(--matcha); }
+  .result-head .page-mark {
+    margin-bottom: 18px;
+    color: var(--accent);
+    opacity: 0.7;
+    transition: color 1s ease;
+  }
 
-  /* 报告卡片 */
+  .type-name {
+    font-size: 30px;
+    color: var(--text);
+    margin: 0 0 22px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  /* 名句卡片 —— 字幕卡 */
+  .quote-card {
+    position: relative;
+    margin: 0 auto 20px;
+    padding: 22px 20px 18px;
+    max-width: 340px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    text-align: left;
+    transition: border-left-color 1s ease;
+  }
+  .quote-mark {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    line-height: 0.4;
+    color: var(--accent);
+    margin-bottom: 10px;
+    transition: color 1s ease;
+  }
+  .quote-text {
+    font-size: 15.5px;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .quote-from {
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+  }
+
+  .type-line {
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--text-dim);
+    margin: 4px auto 0;
+    max-width: 320px;
+    letter-spacing: 0.02em;
+    padding: 0 6px;
+  }
+
+  .radar-wrap {
+    width: 100%;
+    max-width: 340px;
+    margin: 8px auto 8px;
+    pointer-events: none;
+    padding: 10px;
+  }
+  #radar { display: block; margin: 0 auto; }
+
+  /* 维度面板 */
+  .dims {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin: 16px 0 30px;
+    padding: 24px 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+
+  .dim-row { display: flex; flex-direction: column; gap: 9px; }
+
+  .dim-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .dim-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .dim-sub {
+    font-size: 11.5px;
+    color: var(--text-mute);
+    margin-top: 4px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  .dim-val {
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    flex: 0 0 auto;
+    transition: color 1s ease;
+  }
+
+  .dim-track-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dim-pole {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+    flex: 0 0 auto;
+    font-weight: 700;
+  }
+  .dim-track {
+    flex: 1;
+    height: 2px;
+    background: var(--line);
+    position: relative;
+  }
+  .dim-fill {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    height: 6px;
+    width: 0;
+    transition: width 1s cubic-bezier(0.22, 0.68, 0.32, 1);
+  }
+  .dim-fill::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: inherit;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  /* 报告内容块 */
   .report {
     display: flex;
     flex-direction: column;
@@ -544,40 +691,29 @@
   }
 
   .block {
-    background: #fff;
-    border: 1.5px solid var(--line);
-    border-radius: 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 2px;
     padding: 20px 20px 18px;
-  }
-
-  .block-head {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin-bottom: 13px;
-  }
-
-  .block-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    flex: 0 0 9px;
+    border-top: 2px solid var(--accent);
+    transition: border-top-color 1s ease;
   }
 
   .block h3 {
-    font-family: var(--font-display);
-    font-size: 15px;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    margin: 0;
-    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    margin: 0 0 14px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    transition: color 1s ease;
   }
 
   .block p {
     margin: 0;
-    font-size: 14px;
+    font-size: 13.8px;
     line-height: 1.95;
-    color: var(--ink-2);
+    color: var(--text-dim);
     letter-spacing: 0.01em;
   }
 
@@ -586,165 +722,139 @@
     padding: 0;
     list-style: none;
   }
-
   .block li {
     position: relative;
-    padding-left: 18px;
-    font-size: 14px;
+    padding-left: 22px;
+    font-size: 13.8px;
     line-height: 1.95;
-    color: var(--ink-2);
+    color: var(--text-dim);
     margin-bottom: 9px;
     letter-spacing: 0.01em;
   }
-
   .block li:last-child { margin-bottom: 0; }
-
   .block li::before {
-    content: '';
+    content: '—';
     position: absolute;
-    left: 2px;
-    top: 11px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--coral);
+    left: 0;
+    top: 0;
+    color: var(--accent);
+    font-weight: 700;
+    transition: color 1s ease;
   }
 
-  /* 关键词卡 */
+  /* 关键词卡片 */
   .keyword-card {
-    margin-top: 14px;
-    padding: 30px 24px;
-    border-radius: 24px;
-    text-align: center;
-    background: var(--ink);
-    color: #fff;
     position: relative;
-    overflow: hidden;
-  }
-
-  .keyword-card::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: var(--coral);
-    opacity: 0.18;
-  }
-
-  .keyword-card::after {
-    content: '';
-    position: absolute;
-    bottom: -40px;
-    left: -20px;
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: var(--matcha);
-    opacity: 0.15;
+    margin-top: 22px;
+    padding: 34px 24px 30px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--accent);
+    border-radius: 2px;
+    transition: border-top-color 1s ease;
   }
 
   .kw-label {
-    position: relative;
-    font-size: 10.5px;
-    letter-spacing: 0.38em;
-    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    letter-spacing: 0.46em;
+    color: var(--accent);
     margin-bottom: 16px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    transition: color 1s ease;
   }
-
   .kw-text {
-    position: relative;
-    font-family: var(--font-display);
-    font-size: 19px;
-    line-height: 1.7;
-    color: #fff;
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: var(--text);
+    font-weight: 700;
     letter-spacing: 0.02em;
   }
 
   .note {
-    margin: 26px 0 0;
-    font-size: 12.5px;
-    line-height: 1.95;
-    color: var(--ink-3);
+    margin: 30px 0 0;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--text-mute);
     text-align: center;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
   }
 
   .actions {
     display: flex;
     gap: 10px;
-    margin-top: 24px;
+    margin-top: 28px;
   }
-
-  .actions .btn-main {
-    flex: 1.3;
-    padding: 17px 12px;
-    font-size: 15px;
-    letter-spacing: 0.1em;
+  .actions .btn-primary {
+    flex: 1.2;
+    padding: 16px 10px;
+    font-size: 14px;
+    letter-spacing: 0.16em;
   }
 
   .btn-ghost {
     flex: 1;
-    padding: 17px 12px;
-    border-radius: 22px;
-    background: #fff;
-    border: 1.5px solid var(--line);
-    color: var(--ink-2);
-    font-size: 15px;
-    letter-spacing: 0.1em;
+    padding: 16px 10px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    letter-spacing: 0.16em;
     font-family: inherit;
     cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+    font-weight: 700;
+    transition: border-color 0.22s ease, color 0.22s ease;
+    -webkit-appearance: none;
+    appearance: none;
   }
-
   .btn-ghost:active {
-    transform: scale(0.975);
-    background: #F0EDE7;
-    border-color: #DCD7CD;
+    border-color: var(--amber);
+    color: var(--amber);
   }
 
   .footnote {
-    margin: 24px 0 0;
-    font-size: 11px;
-    line-height: 1.85;
-    color: var(--ink-3);
+    margin: 26px 0 0;
+    font-size: 10.5px;
+    line-height: 1.9;
+    color: var(--text-mute);
     text-align: center;
+    letter-spacing: 0.05em;
   }
 
-  /* ========== Toast ========== */
+  /* Toast */
   .toast {
     position: fixed;
     left: 50%;
     bottom: 46px;
     transform: translate(-50%, 16px);
-    background: var(--ink);
-    color: #fff;
+    background: var(--card-2);
+    color: var(--amber);
     padding: 13px 24px;
-    border-radius: 999px;
-    font-size: 13.5px;
-    letter-spacing: 0.05em;
+    border: 1px solid var(--amber);
+    border-radius: 2px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 99;
     white-space: nowrap;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
   }
-
   .toast.show {
     opacity: 1;
     transform: translate(-50%, 0);
   }
 
   @media (max-width: 360px) {
-    .hero-title { font-size: 34px; }
-    .res-name   { font-size: 32px; }
-    .qtext      { font-size: 15.5px; }
-    .option     { font-size: 13.5px; padding: 14px 14px; }
-    .kw-text    { font-size: 17px; }
+    .intro-title { font-size: 27px; }
+    .qtext { font-size: 17px; }
+    .option { font-size: 13.5px; }
+    .type-name { font-size: 25px; }
+    .quote-text { font-size: 14.5px; }
   }
 </style>
 </head>
@@ -754,127 +864,101 @@
 
   <!-- ==================== 首页 ==================== -->
   <section id="screen-intro" class="screen active">
-    <div class="tag-rot">活人感浓度 · 趣味自测</div>
-    <h1 class="hero-title">
-      你在朋友圈里<br>
-      还剩多少<span class="mark">真实</span>？
+    <div class="page-mark">— 01 —</div>
+    <h1 class="intro-title">
+      你的人生<br>
+      正在被什么<span class="accent-word">风格</span><br>
+      拍摄？
     </h1>
-
-    <div class="bento-row">
-      <div class="bento-chip chip-coral">
-        <div class="chip-num">12</div>
-        <div class="chip-label">道情境题</div>
-      </div>
-      <div class="bento-chip chip-blue">
-        <div class="chip-num">3</div>
-        <div class="chip-label">分钟</div>
-      </div>
-      <div class="bento-chip chip-matcha">
-        <div class="chip-num">4</div>
-        <div class="chip-label">个维度</div>
-      </div>
+    <p class="poem">
+      每个人都在不自觉地<br>
+      剪辑自己的日子——<br>
+      把哪些片段留下，<br>
+      把哪些画面调暗，<br>
+      把镜头对准谁，<br>
+      又不让谁入画
+    </p>
+    <div class="meta-row">
+      <span>20 个日常情境</span>
+      <span class="meta-dot"></span>
+      <span>约 5 分钟</span>
+      <span class="meta-dot"></span>
+      <span>20 种导演原型</span>
     </div>
-
-    <div class="quote-card">
-      你发了那么多条动态，修了那么多遍图，<br>
-      却越来越不确定——<br>
-      屏幕那边的人，认识的到底是不是你。
-    </div>
-
-    <button class="btn-main" id="startBtn">
-      开始测试 <span class="arrow">→</span>
-    </button>
-    <p class="fine-print">本测试为趣味自测，不构成心理学诊断或医学建议。</p>
+    <button class="btn-primary" id="startBtn">开 始 拍 摄</button>
+    <p class="disclaimer">趣味自测 · 不构成心理学诊断</p>
   </section>
 
   <!-- ==================== 答题页 ==================== -->
   <section id="screen-quiz" class="screen">
-    <div class="quiz-head">
-      <div class="dot-progress" id="dotProgress"></div>
-      <div class="counter"><span id="qIndex">01</span>/12</div>
+    <div class="quiz-top">
+      <div class="progress-wrap">
+        <div class="progress-inner" id="progressInner"></div>
+      </div>
+      <div class="counter"><span id="qIndex">01</span> / 20</div>
     </div>
 
     <div class="qcard" id="qcard">
-      <div class="qnum">Q<span id="qNum">01</span></div>
+      <div class="scene-tag">S C E N E <span id="qNum">01</span></div>
       <h2 class="qtext" id="qText"></h2>
       <div class="options" id="options"></div>
     </div>
 
-    <button class="back-btn" id="backBtn">← 上一题</button>
+    <button class="back-btn" id="backBtn">← 倒回上一场</button>
   </section>
 
   <!-- ==================== 分析中 ==================== -->
   <section id="screen-loading" class="screen">
     <div class="loading-inner">
-      <div class="loader-dots">
-        <span></span><span></span><span></span><span></span>
+      <div class="reel">
+        <div class="reel-holes">
+          <span></span><span></span><span></span><span></span>
+        </div>
       </div>
-      <p class="loading-text">正在分析你的活人感浓度……</p>
+      <p class="loading-text">正在冲洗你的底片</p>
     </div>
   </section>
 
   <!-- ==================== 结果页 ==================== -->
   <section id="screen-result" class="screen">
-    <div class="res-tag">你的活人感类型</div>
-    <h1 class="res-name" id="resName"></h1>
-    <p class="res-line" id="resLine"></p>
-
-    <div class="radar-card">
-      <canvas id="radar"></canvas>
+    <div class="result-head">
+      <div class="page-mark">— F I L M  R E P O R T —</div>
+      <h1 class="type-name" id="resName"></h1>
+      <div class="quote-card">
+        <div class="quote-mark">“</div>
+        <div class="quote-text" id="quoteText"></div>
+        <div class="quote-from" id="quoteFrom"></div>
+      </div>
+      <p class="type-line" id="resLine"></p>
     </div>
 
-    <div class="dim-grid" id="dims"></div>
+    <div class="radar-wrap"><canvas id="radar"></canvas></div>
+
+    <div class="dims" id="dims"></div>
 
     <div class="report">
-      <div class="block">
-        <div class="block-head">
-          <span class="block-dot" style="background:var(--coral)"></span>
-          <h3>关于你</h3>
-        </div>
-        <p id="resDesc"></p>
-      </div>
-
-      <div class="block">
-        <div class="block-head">
-          <span class="block-dot" style="background:var(--blue)"></span>
-          <h3>你在社交里的样子</h3>
-        </div>
-        <ul id="resTraits"></ul>
-      </div>
-
-      <div class="block">
-        <div class="block-head">
-          <span class="block-dot" style="background:var(--yellow)"></span>
-          <h3>容易被误会的地方</h3>
-        </div>
-        <p id="resMis"></p>
-      </div>
-
-      <div class="block">
-        <div class="block-head">
-          <span class="block-dot" style="background:var(--matcha)"></span>
-          <h3>你的“活人感”在哪里</h3>
-        </div>
-        <p id="resBoundary"></p>
-      </div>
+      <div class="block"><h3>你 的 镜 头</h3><p id="resDesc"></p></div>
+      <div class="block"><h3>拍 摄 现 场</h3><ul id="resTraits"></ul></div>
+      <div class="block"><h3>别 人 看 到 的 版 本</h3><p id="resMis"></p></div>
+      <div class="block"><h3>你 把 镜 头 藏 在 哪 里</h3><p id="resBoundary"></p></div>
     </div>
 
     <div class="keyword-card">
-      <div class="kw-label">隐 藏 关 键 词</div>
+      <div class="kw-label">H I D D E N  K E Y</div>
       <div class="kw-text" id="resKeyword"></div>
     </div>
 
     <p class="note">
-      这个结果不是在判断你“真不真实”，<br>
-      而是在描述你习惯用多少真实的自己，去面对别人。
+      这个结果不是在说你像谁，<br>
+      而是在说，你用什么样的方式，看这个世界
     </p>
 
     <div class="actions">
-      <button class="btn-ghost" id="retryBtn">重新测试</button>
-      <button class="btn-main" id="shareBtn">分享我的结果</button>
+      <button class="btn-ghost" id="retryBtn">重 拍</button>
+      <button class="btn-primary" id="shareBtn">分 享 结 果</button>
     </div>
 
-    <p class="footnote">本测试为趣味自测，不构成心理学诊断或医学建议。</p>
+    <p class="footnote">趣味自测 · 不构成心理学诊断或医学建议</p>
   </section>
 
 </div>
@@ -887,221 +971,593 @@
 
   /* =========================================================
      一、题库
-     4 个隐藏维度：
-     [ 真实呈现度, 情绪外露度, 社交表演消耗, 自我关怀能力 ]
+     四维度（0—3 分）：
+     [叙事节奏, 情绪温度, 社会意识, 世界观]
+     叙事节奏：0=类型片，3=文艺片
+     情绪温度：0=冷峻，3=温柔
+     社会意识：0=私人，3=公共
+     世界观：0=秩序，3=混沌
      ========================================================= */
   const QUESTIONS = [
     {
-      text: '你拍了一张很满意的照片，但原图有点糊。你发朋友圈的时候会……',
+      text: '你走夜路回家，脚步通常是——',
       options: [
-        { t: '修到每一根头发丝都完美，再配一段精心打磨的文案。', v: [0, 0, 3, 1] },
-        { t: '稍微调一下亮度就发了，文案写“今天还行”。',       v: [2, 1, 1, 2] },
-        { t: '不修，连配文都懒得想，直接发。',                 v: [3, 2, 0, 3] },
-        { t: '发到小号或者仅自己可见，大号还是发精修。',       v: [1, 1, 2, 1] }
+        { t: '很快，脑子里已经在放明天的事', v: [0, 0, 1, 0] },
+        { t: '不快不慢，刚好能听见自己的脚步声', v: [1, 2, 1, 1] },
+        { t: '很慢，会不自觉停下来看路灯下的树影', v: [3, 2, 0, 2] },
+        { t: '看心情，有时候赶路，有时候故意绕远', v: [2, 1, 1, 3] }
       ]
     },
     {
-      text: '你刚经历了一件很崩溃的事——考试挂了、面试没过、被朋友放了鸽子。你的第一反应是……',
+      text: '你讲一件事的时候，习惯——',
       options: [
-        { t: '发一条“发疯文学”，配一堆表情包，让所有人知道我今天不太行。', v: [2, 3, 1, 1] },
-        { t: '找一两个最好的朋友倾诉，但不会公开发。',                     v: [2, 1, 0, 3] },
-        { t: '自己消化，最多发一条很隐晦的动态，没人看懂最好。',           v: [1, 0, 2, 1] },
-        { t: '不会让任何人知道，明天照常上课照常笑。',                     v: [0, 0, 3, 0] }
+        { t: '先说结果，再倒回去讲过程', v: [0, 0, 1, 1] },
+        { t: '按时间顺序，从头讲起', v: [1, 1, 1, 0] },
+        { t: '从最打动你的那个细节讲起', v: [3, 3, 1, 2] },
+        { t: '讲到哪算哪，中间经常跑题', v: [2, 2, 1, 3] }
       ]
     },
     {
-      text: '朋友发消息问：“你最近怎么样？”你的真实状态是“不太好”，你会怎么回？',
+      text: '周末下午，你更可能——',
       options: [
-        { t: '如实说：“不太好，最近有点累。”',               v: [3, 2, 0, 3] },
-        { t: '回“还行吧”，然后等对方追问。',                 v: [2, 1, 2, 2] },
-        { t: '回“挺好的呀”，然后把话题转到对方身上。',       v: [0, 0, 3, 0] },
-        { t: '看是谁问的。好朋友就直说，一般朋友就说“挺好的”。', v: [2, 1, 1, 2] }
+        { t: '把要做的事列一个清单，一件件完成', v: [0, 0, 1, 0] },
+        { t: '做一件需要专注的事，做到天黑', v: [1, 1, 0, 1] },
+        { t: '随便翻翻书，发发呆，一个下午就过去了', v: [3, 2, 0, 2] },
+        { t: '临时决定出门，去哪都行', v: [2, 2, 1, 3] }
       ]
     },
     {
-      text: '你发现有人在你面前说另一个人的坏话，而你和那个人其实关系还不错。你会……',
+      text: '朋友跟你讲一个很长的故事，讲到一半——',
       options: [
-        { t: '有点尴尬，但笑着听完，不表态。',           v: [1, 0, 2, 1] },
-        { t: '直接说：“其实我觉得TA还挺好的。”',         v: [3, 3, 0, 2] },
-        { t: '附和几句，但心里觉得不太对劲。',           v: [0, 0, 3, 0] },
-        { t: '把话题岔开，不想参与这种对话。',           v: [2, 2, 2, 2] }
+        { t: '你会问「所以最后怎么样了」', v: [0, 0, 1, 0] },
+        { t: '你会安静地听完，不打断', v: [2, 2, 1, 1] },
+        { t: '你已经开始注意TA说话时的表情和语气', v: [3, 3, 2, 2] },
+        { t: '你会联想到自己的事，然后聊到别的地方去', v: [2, 1, 1, 3] }
       ]
     },
     {
-      text: '你在社交软件上和人聊天，发现对方已读不回。你会……',
+      text: '你怎么看待「等待」这件事——',
       options: [
-        { t: '开始回想自己是不是说错了什么。',           v: [1, 1, 3, 0] },
-        { t: '无所谓，对方可能在忙，我也干我的事去了。', v: [2, 1, 0, 3] },
-        { t: '会有点在意，但不会表现出来，也不会追问。', v: [1, 0, 2, 1] },
-        { t: '直接再发一条：“？在忙吗”',                 v: [3, 2, 1, 2] }
+        { t: '等待是浪费时间，能做点别的就做点别的', v: [0, 0, 1, 0] },
+        { t: '等待的时候会想很多事，但不会觉得难熬', v: [2, 1, 1, 2] },
+        { t: '等待有一种奇怪的安心感，不用做任何事', v: [3, 2, 0, 3] },
+        { t: '等待让人烦躁，除非等到的东西值得', v: [1, 0, 1, 1] }
       ]
     },
     {
-      text: '一群人在一起聊天，你讲了一个自己觉得很好笑的事，但没人笑。你会……',
+      text: '看到一个陌生人在路边哭——',
       options: [
-        { t: '尴尬地笑笑，然后安静下来。',                       v: [0, 0, 3, 0] },
-        { t: '自己补一句“好吧可能只有我觉得好笑”，然后继续聊别的。', v: [3, 2, 1, 3] },
-        { t: '心里有点难受，但表面上完全看不出来。',             v: [1, 0, 3, 0] },
-        { t: '觉得没关系，本来每个人的笑点就不一样。',           v: [2, 1, 0, 3] }
+        { t: '会绕开，觉得那是别人的事', v: [0, 0, 0, 0] },
+        { t: '会多看一眼，但不会停下来', v: [1, 0, 1, 1] },
+        { t: '心里会揪一下，但不知道该做什么', v: [2, 3, 2, 2] },
+        { t: '会犹豫要不要递一张纸巾', v: [2, 3, 3, 2] }
       ]
     },
     {
-      text: '你在网上看到一条和你观点完全相反的评论，你会……',
+      text: '朋友跟你倾诉一件很难过的事，你的第一反应是——',
       options: [
-        { t: '忍不住回复，打了一大段字又删掉，最后还是没发。', v: [1, 1, 2, 1] },
-        { t: '直接回复，把自己的观点说清楚。',                 v: [3, 3, 1, 2] },
-        { t: '划走，不想浪费情绪。',                           v: [2, 2, 0, 3] },
-        { t: '截图发给朋友吐槽，但不会在评论区出现。',         v: [1, 2, 1, 1] }
+        { t: '帮TA分析问题出在哪里', v: [0, 0, 1, 0] },
+        { t: '安静地听，偶尔说一句「嗯」', v: [2, 2, 1, 2] },
+        { t: '说「我懂」，然后分享自己的经历', v: [2, 3, 2, 2] },
+        { t: '想抱抱TA，但可能说不出口', v: [3, 3, 1, 2] }
       ]
     },
     {
-      text: '你最近在听一首歌，单曲循环了一整天。有人问你“你在听什么”，你会……',
+      text: '你拍照片的时候，更常拍——',
       options: [
-        { t: '大方分享，还会把歌推给对方。',                   v: [3, 2, 0, 2] },
-        { t: '说“随便听听”，不太想解释为什么喜欢。',           v: [2, 0, 2, 1] },
-        { t: '有点不好意思，因为这首歌可能有点“土”或者“小众”。', v: [0, 0, 3, 0] },
-        { t: '看是谁问的，懂的人就分享，不懂的就含糊过去。',   v: [2, 1, 1, 2] }
+        { t: '建筑、街道、有几何感的东西', v: [1, 0, 1, 0] },
+        { t: '人，尤其是他们没注意镜头的时候', v: [2, 3, 3, 2] },
+        { t: '光、影子、树、云', v: [3, 2, 0, 3] },
+        { t: '食物、日常、家里的小角落', v: [2, 2, 0, 1] }
       ]
     },
     {
-      text: '你发了一条动态，过了十分钟只有两个赞。你会……',
+      text: '下雨天，你通常会——',
       options: [
-        { t: '有点失落，但告诉自己“又不是为了赞发的”。', v: [1, 1, 2, 1] },
-        { t: '直接删掉，觉得这条不太行。',               v: [0, 0, 3, 0] },
-        { t: '完全不在意，发完就忘了。',                 v: [3, 2, 0, 3] },
-        { t: '会检查一下是不是被限流了。',               v: [1, 0, 3, 1] }
+        { t: '该干嘛干嘛，不太在意天气', v: [0, 0, 1, 0] },
+        { t: '会觉得安静，很适合想事情', v: [2, 1, 0, 2] },
+        { t: '心情会跟着变低，说不清为什么', v: [2, 3, 0, 3] },
+        { t: '很喜欢，会故意在雨里走一会儿', v: [3, 3, 0, 3] }
       ]
     },
     {
-      text: '有人对你说：“你好像不太爱表达自己的情绪。”你的真实感受是……',
+      text: '你保留旧物的习惯是——',
       options: [
-        { t: '“确实，我不太习惯让别人看到我情绪不好。”',   v: [1, 0, 3, 1] },
-        { t: '“我只是觉得没必要让所有人都知道。”',         v: [2, 1, 1, 2] },
-        { t: '“其实我表达了啊，只是你没注意到。”',         v: [3, 2, 1, 2] },
-        { t: '“你说得对，我应该多表达一点。”',             v: [1, 1, 2, 1] }
+        { t: '基本不留，用完就扔', v: [0, 0, 1, 0] },
+        { t: '留一些，但不多，定期清理', v: [1, 1, 1, 1] },
+        { t: '留很多，连电影票根都还在', v: [3, 3, 1, 3] },
+        { t: '看是什么东西，有些丢了会后悔', v: [2, 2, 1, 2] }
       ]
     },
     {
-      text: '你一个人待着的时候，通常会做什么？',
+      text: '你刷到一条社会新闻，会——',
       options: [
-        { t: '刷手机，看看别人在干什么，但自己不太发。',             v: [0, 0, 3, 0] },
-        { t: '做自己喜欢的事，听歌、看剧、打游戏，很享受。',         v: [3, 1, 0, 3] },
-        { t: '会想很多事，有时候会突然觉得有点空。',                 v: [1, 1, 2, 1] },
-        { t: '看状态，有时候很享受独处，有时候特别想找人说话。',     v: [2, 2, 1, 2] }
+        { t: '看完就划走，很少评论', v: [1, 0, 0, 1] },
+        { t: '会看完，但不会转发', v: [1, 1, 1, 1] },
+        { t: '会和身边的人讨论', v: [1, 2, 3, 2] },
+        { t: '会想这件事背后的原因是什么', v: [2, 1, 3, 3] }
       ]
     },
     {
-      text: '如果要你用一句话形容你在社交媒体上的形象，你会选……',
+      text: '你和朋友聊天，更常聊——',
       options: [
-        { t: '“看起来什么都好，其实只有我自己知道。”',       v: [0, 0, 3, 0] },
-        { t: '“就是我本人，没什么好藏的。”',                 v: [3, 3, 0, 3] },
-        { t: '“看心情，有时候很活跃，有时候人间蒸发。”',     v: [2, 2, 1, 2] },
-        { t: '“我发的东西都是我精心选过的，但不算假。”',     v: [1, 1, 2, 1] }
+        { t: '各自的生活，具体的事', v: [1, 1, 0, 1] },
+        { t: '最近看的书、电影、音乐', v: [2, 2, 1, 2] },
+        { t: '对一些事情的看法，有时候会争论', v: [1, 1, 3, 2] },
+        { t: '回忆过去，或者聊一些没头没尾的事', v: [3, 2, 1, 3] }
+      ]
+    },
+    {
+      text: '你觉得「一个人」和「一群人」的关系是——',
+      options: [
+        { t: '一个人更自在，一群人太吵', v: [2, 1, 0, 2] },
+        { t: '人需要群体，但也需要独处', v: [1, 2, 2, 1] },
+        { t: '一个人做不了什么，很多事要靠大家', v: [1, 1, 3, 0] },
+        { t: '看情况，有时候一个人更好，有时候需要人', v: [1, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '你独处的时候，脑子里想的事通常是——',
+      options: [
+        { t: '接下来要做什么，有什么没完成的', v: [0, 0, 0, 0] },
+        { t: '今天遇到的人，说过的话', v: [2, 3, 2, 1] },
+        { t: '一些很大很远的问题，比如人生、意义', v: [3, 1, 3, 3] },
+        { t: '什么都想，也什么都不想', v: [2, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '你更认同哪句话——',
+      options: [
+        { t: '把自己的生活过好，就是对世界最大的贡献', v: [1, 1, 0, 0] },
+        { t: '人不能只关心自己，也要看看别人', v: [1, 2, 2, 1] },
+        { t: '一个人的痛苦，从来不只是一个人的事', v: [2, 3, 3, 2] },
+        { t: '世界太大了，想那么多也没用', v: [1, 0, 1, 3] }
+      ]
+    },
+    {
+      text: '你出门旅行，更习惯——',
+      options: [
+        { t: '提前做好攻略，把行程安排清楚', v: [0, 0, 0, 0] },
+        { t: '定好大方向，细节到时候再说', v: [1, 1, 1, 1] },
+        { t: '走到哪算哪，不刻意规划', v: [3, 2, 1, 3] },
+        { t: '看和谁去，有人规划我就跟着走', v: [1, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '计划突然被打乱，你的第一反应是——',
+      options: [
+        { t: '有点烦，会想办法回到原来的轨道', v: [0, 0, 1, 0] },
+        { t: '先看看有没有别的办法', v: [1, 1, 1, 1] },
+        { t: '算了，反正计划就是用来被打乱的', v: [2, 1, 0, 3] },
+        { t: '其实有点兴奋，未知的感觉挺好', v: [2, 2, 1, 3] }
+      ]
+    },
+    {
+      text: '你相信「每件事都有它的原因」这句话吗——',
+      options: [
+        { t: '相信，事出必有因', v: [0, 0, 1, 0] },
+        { t: '大部分时候相信，但有些事确实说不清', v: [1, 1, 1, 1] },
+        { t: '不太信，很多事情就是随机的', v: [2, 1, 1, 3] },
+        { t: '看情况，有时候信有时候不信', v: [1, 1, 1, 2] }
+      ]
+    },
+    {
+      text: '你怎么看待「巧合」——',
+      options: [
+        { t: '巧合只是概率，不用想太多', v: [0, 0, 1, 0] },
+        { t: '巧合有时候挺有意思的', v: [1, 1, 1, 1] },
+        { t: '我相信有些巧合是有意义的', v: [2, 2, 1, 2] },
+        { t: '巧合让我觉得世界比我想的更复杂', v: [2, 1, 1, 3] }
+      ]
+    },
+    {
+      text: '如果用一个词形容你的人生观——',
+      options: [
+        { t: '认真', v: [0, 0, 1, 0] },
+        { t: '随缘', v: [2, 2, 1, 3] },
+        { t: '好奇', v: [2, 1, 1, 2] },
+        { t: '等待', v: [3, 1, 0, 3] }
       ]
     }
   ];
 
-  /* 各维度理论上下限 */
-  const DIM_MIN = [3, 0, 5, 2];
-  const DIM_MAX = [33, 30, 33, 33];
-  const DIM_NAMES = ['真实呈现', '情绪外露', '表演消耗', '自我关怀'];
-
-  /* 四个选项的颜色（Bento 四色） */
-  const OPT_COLORS = [
-    { main: '#FF8B6A', bg: '#FFF0EB' },  /* A 珊瑚橘 */
-    { main: '#7BA7D7', bg: '#EEF5FB' },  /* B 雾霾蓝 */
-    { main: '#F0C24B', bg: '#FEF8E7' },  /* C 奶油黄 */
-    { main: '#8FBC8F', bg: '#EEF6EE' }   /* D 抹茶绿 */
+  const DIM_MIN = [5, 3, 5, 6];
+  const DIM_MAX = [44, 43, 38, 45];
+  const DIM_META = [
+    { name: '叙事节奏', sub: '你习惯用什么速度过日子', left: '类型片', right: '文艺片', color: '#5A8AB8' },
+    { name: '情绪温度', sub: '你和世界保持多近的距离', left: '冷峻', right: '温柔', color: '#E8A040' },
+    { name: '社会意识', sub: '你的镜头习惯对准哪里', left: '私人', right: '公共', color: '#7AA878' },
+    { name: '世界观', sub: '你相信世界是什么样的', left: '秩序', right: '混沌', color: '#C86A7A' }
   ];
 
   /* =========================================================
-     二、五种活人感类型
+     二、二十种导演原型
      ========================================================= */
   const TYPES = [
     {
-      id: 'performer',
-      name: '「精修表演者」',
-      proto: [12, 10, 92, 18],
-      line: '你活在镜头里太久了，久到有时候连自己都分不清——哪个才是真的你。',
-      desc: '你非常清楚什么样的内容会得到什么样的反馈。修图、选滤镜、斟酌文案、计算发布时间，这些动作早已内化成肌肉记忆。你不是故意要“假”，你只是太擅长管理别人眼中的自己。但代价是：你越来越难在不需要表演的场合里放松下来。你发的每一条动态都经过了筛选，以至于连“最近怎么样”这个问题，你都会下意识地准备一个“合适的答案”。',
+      id: 'wong',
+      name: '「王家卫型」',
+      proto: [88, 12, 10, 88],
+      color: { accent: '#C8546A', soft: 'rgba(200, 84, 106, 0.10)' },
+      quote: '所有的相遇，都是久别重逢',
+      quoteFrom: '《一代宗师》',
+      line: '你的镜头总在对焦那些说不清的东西',
+      desc: '你的生活里没有明确的开头和结尾。你记住的往往不是发生了什么，而是发生的时候空气是什么味道，对方说话时停顿了多久。你不太擅长把事情讲清楚，但你能把一种感觉还原得让所有人都沉默。你的世界是潮湿的、暧昧的、慢下来的。你不着急，因为你相信有些东西需要时间才会浮现。',
       traits: [
-        '发朋友圈前会反复修改，发完还会时不时看点赞数',
-        '会区分“大号”和“小号”，甚至对不同分组展示不同的自己',
-        '独处时刷手机的时间远多于做真正想做的事',
-        '别人觉得你“生活很精彩”，但你自己知道那些精彩有多少是摆出来的'
+        '记得很多年前的某一天，却忘了昨天午饭吃了什么',
+        '喜欢在人群里观察，而不是参与',
+        '对「错过」这件事有一种近乎迷恋的敏感',
+        '话说到一半会突然停住，因为找不到那个准确的词'
       ],
-      misunderstand: '别人以为你很自信、很会生活、很“现充”。其实你比谁都清楚，那些精心呈现的碎片和真实的日常之间隔了多远。偶尔有人夸你“好真实”，你心里会咯噔一下——因为你知道那也是一场表演。',
-      boundary: '你的活人感被压缩在一个很小的角落里：可能是小号里的一张随手拍，可能是深夜发给一个人的语音，可能是你删掉的那条动态。那些没有被展示出来的部分，才是你真正在呼吸的地方。',
-      keyword: '「我修的不是图，是我怕被看穿的裂缝。」'
+      mis: '别人觉得你「想太多」「不够直接」。他们不知道你只是把很多话在心里过了一遍又一遍，等到想说的时候，那个时刻已经过去了。你看起来疏离，其实只是太在意。',
+      boundary: '你的镜头藏在那些你从不发出来的照片里。你拍了很多，但只给极少数人看过。你把最真的画面留给了自己，因为你知道，一旦展示，它就不再属于你了。',
+      keyword: '「有些话我没说，不是不想说，是说出来就不是那个意思了」'
     },
     {
-      id: 'half',
-      name: '「半熟真人」',
-      proto: [58, 45, 48, 62],
-      line: '你在“想被看见”和“怕被看见”之间来回摇摆——真实和体面，你两个都想要。',
-      desc: '你不是不会真实，你只是在选择性地真实。对最亲近的人，你几乎不设防；对泛泛之交，你会自动切换到“社交模式”。你知道哪些话题可以聊、哪些情绪可以露、哪些脆弱只能在特定的人面前出现。这种分寸感让你在大多数关系里都游刃有余，但也让你偶尔感到疲惫——因为切换本身就需要力气。',
+      id: 'nolan',
+      name: '「诺兰型」',
+      proto: [8, 10, 82, 8],
+      color: { accent: '#5A8AB8', soft: 'rgba(90, 138, 184, 0.10)' },
+      quote: '不要试图理解它，去感受它',
+      quoteFrom: '《信条》',
+      line: '你把生活当作一道需要拆解的谜题',
+      desc: '你的脑子永远在运转。你喜欢结构，喜欢层次，喜欢一件事从不同角度看会有不同的样子。你不害怕复杂，你反而觉得复杂才是真相。但你不太擅长处理那些没有逻辑的情绪——当有人只是单纯地难过时，你会本能地想帮TA找到原因，而不是陪TA待在那份难过里。',
       traits: [
-        '对不同的人展示不同浓度的自己，切换很自然',
-        '会发一些“不太完美”的动态，但不会发最崩溃的时刻',
-        '开心的时候愿意分享，难过的时候更倾向于自己消化',
-        '有时候觉得“如果能一直不用切换就好了”，但做不到'
+        '喜欢把一件事翻来覆去想很多遍，直到找到那个「对」的解释',
+        '讨厌模糊不清的表达，希望每件事都有明确的因果',
+        '看电影会注意结构，看人也会',
+        '很难忍受「就这样吧」这种态度'
       ],
-      misunderstand: '有人觉得你“不够真诚”，因为你好像总是保留了一部分。但也有人觉得你“很真实”，因为你确实不装。这两种评价你都听过，你知道自己就在中间——一个还没决定要不要完全打开的人。',
-      boundary: '你的活人感是分层的：最外层是得体的社交形象，中间层是日常的喜怒哀乐，最里面那一层，只有极少数人进去过。你不是不愿意打开最里面那层，你只是在等一个让你觉得足够安全的人。',
-      keyword: '「我不是不真实，我只是在决定对谁真实。」'
+      mis: '别人觉得你「太理性」「不够感性」。其实你不是没有情绪，你只是觉得情绪如果说不清楚，就没有意义。你希望一切都可以被理解，包括你自己。',
+      boundary: '你的镜头藏在那些反复修改过的文字里。你会把一段话改了又改，删了又写，最后发出去的，只是冰山的一角。',
+      keyword: '「我不是冷，我只是想把一切想明白再开口」'
     },
     {
-      id: 'feral',
-      name: '「野生人类」',
-      proto: [92, 82, 15, 75],
-      line: '你想发什么就发什么，想说什么就说什么——活人感对你来说不是需要努力的事。',
-      desc: '你在社交媒体上的状态和你在现实中的状态高度一致。你不会花太多时间想“别人会怎么看我”，因为你更在意的是“我现在想不想发”。你的动态可能很杂乱、很不精致，但认识你的人一看就知道那是你。你有很强的自我接纳能力，允许自己有不完美的时刻，也允许别人看到那些时刻。',
+      id: 'koreeda',
+      name: '「是枝裕和型」',
+      proto: [85, 82, 12, 62],
+      color: { accent: '#7AA878', soft: 'rgba(122, 168, 120, 0.10)' },
+      quote: '活着的东西，都是很费工夫的',
+      quoteFrom: '《海街日记》',
+      line: '你的温柔藏在日常的褶皱里',
+      desc: '你不擅长说「我爱你」，但你会记住对方喜欢吃什么、不喜欢什么。你的温柔不是轰轰烈烈的那种，而是厨房里的一碗汤、出门前的一句「带伞了没有」。你相信生活最深的真相不在大事件里，而在那些被大多数人忽略的瞬间里。你拍下的照片可能看起来很普通，但你知道为什么拍。',
       traits: [
-        '发动态几乎不修图，文案常常是随口一句话或者干脆没有',
-        '情绪来得快去得也快，不会在心里反复咀嚼',
-        '不太在意点赞数和评论量，发完就放下了',
-        '朋友说你“很好懂”，你觉得这是夸奖'
+        '喜欢在家里待着，做一些很小的事',
+        '记得别人的口味、习惯、说过的话',
+        '不太会表达，但会用行动照顾人',
+        '觉得一家人坐在一起吃饭，就是很好的事'
       ],
-      misunderstand: '有人觉得你“太随意”或者“不够成熟”，好像成年人就应该管理好自己的公众形象。但你不这么认为——你觉得那些精修和包装才是消耗。偶尔也会有人羡慕你“怎么能这么松弛”，你只是笑笑，因为你从来没觉得这需要努力。',
-      boundary: '你的活人感几乎不需要边界，因为你就是你。但这不意味着你没有敏感的地方——你只是不觉得那些敏感需要藏起来。如果有人因为你的真实而不喜欢你，你会觉得“那挺好的，省得以后麻烦”。',
-      keyword: '「我没什么好藏的，藏起来太累了。」'
+      mis: '别人觉得你「没什么野心」「生活很平淡」。但他们不知道，你看到的那些细碎的东西，才是你觉得最珍贵的地方。',
+      boundary: '你的镜头藏在饭桌上、阳台上、走廊里的那些瞬间。你不需要把它剪成一部电影，因为你知道，有些画面只需要自己记住就够了。',
+      keyword: '「我不说，但我会记得」'
     },
     {
-      id: 'ghost',
-      name: '「潜水活人」',
-      proto: [25, 15, 82, 30],
-      line: '你在别人的动态里活着，但自己的那一页几乎空白——不是没话说，是不想说。',
-      desc: '你刷很多、看很多、想很多，但很少发。你的社交媒体账号看起来像是“已停更”，但你在别人的评论区里偶尔出现。你不是不喜欢表达，你只是不太相信“表达”这件事的价值。你觉得把自己暴露在公开场合是一种风险——可能会被评判、被误解、被遗忘。所以你选择看，选择听，选择在自己的世界里安静地待着。',
+      id: 'woody',
+      name: '「伍迪·艾伦型」',
+      proto: [28, 32, 14, 88],
+      color: { accent: '#C8A050', soft: 'rgba(200, 160, 80, 0.10)' },
+      quote: '我并不害怕死亡，我只是不想在它发生的时候在场',
+      quoteFrom: '《安妮·霍尔》',
+      line: '你一边自嘲一边把所有事说成笑话',
+      desc: '你很聪明，但你不太相信「聪明」这件事有多重要。你喜欢用玩笑来包装你的在意，好像什么东西一旦认真说出来就会碎。你对世界有很多看法，但你很少真的生气。你更习惯坐在一边观察，然后用一句让人笑完之后有点难过的话，把一切都总结掉。',
       traits: [
-        '朋友圈可能已经很久没更新了，或者只发很少的内容',
-        '会认真看别人的动态，但很少点赞和评论',
-        '有想说的话，但打开输入框又觉得“算了”',
-        '比起公开发布，更愿意在私聊里和人交流'
+        '遇到紧张的事第一反应是开玩笑',
+        '什么都能聊，但很少聊自己真正在意的事',
+        '对别人的评价很敏感，但会用自嘲来化解',
+        '喜欢城市，喜欢走路，喜欢一个人胡思乱想'
       ],
-      misunderstand: '别人可能觉得你“消失了”或者“不关心大家”。其实你一直都在，你只是觉得没有什么值得公开发的东西。有时候你也会羡慕那些可以随意分享的人，但更多时候你觉得“不分享也挺好的”。',
-      boundary: '你的活人感不在公开展示里，而在你和少数人的私密对话中。你不是没有情绪和想法，你只是把“被看见”的范围控制得很小——因为小，才安全。',
-      keyword: '「我在别人的动态里活着，也在自己的沉默里活着。」'
+      mis: '别人觉得你「很有趣」「什么都不在乎」。其实你在乎的太多了，多到不敢承认。你的笑话里藏着很多真话，但很少有人听得出来。',
+      boundary: '你的镜头藏在那些你说完就忘的玩笑里。有些话你只能笑着说出来，因为哭着说太重了，笑着刚好。',
+      keyword: '「我说的每一句笑话，都有一半是真的」'
     },
     {
-      id: 'mood',
-      name: '「情绪潮汐人」',
-      proto: [62, 78, 38, 45],
-      line: '你的活人感浓度随着心情涨落——开心的时候全世界都是朋友，低落的时候谁都不想理。',
-      desc: '你的社交状态非常依赖当下的能量水平。心情好的时候你会发很多、聊很多、分享很多；情绪低落的时候你会突然消失，连消息都不想回。你不是故意忽冷忽热，你只是没有能力在能量低的时候伪装热情。你渴望很深的连接，但你也需要很大的空间——这两件事在你身上同时成立。',
+      id: 'hou',
+      name: '「侯孝贤型」',
+      proto: [82, 62, 82, 88],
+      color: { accent: '#6AA0A0', soft: 'rgba(106, 160, 160, 0.10)' },
+      quote: '我觉得这个世界永远在变，人跟人的关系也在变',
+      quoteFrom: '《刺客聂隐娘》',
+      line: '你看着一切发生，但不急着下判断',
+      desc: '你有一种很少见的耐心。你不急着给事情下结论，也不急着告诉别人对错。你相信每个人都有自己的理由，每个选择都有它的来路。你的视角是长焦的——你总是站在稍微远一点的地方，看着人和事慢慢展开。有时候这让你显得疏离，但更多时候，这让你成为那个被人信任的人。',
       traits: [
-        '有时候一天发好几条动态，有时候半个月一条都没有',
-        '对同一个人，不同时期回复消息的速度和热情完全不同',
-        '情绪好的时候什么都能聊，情绪差的时候连“在吗”都不想回',
-        '事后会为自己的忽冷忽热感到愧疚，但下次依然如此'
+        '听别人说话时很少打断，也很少立刻评价',
+        '对这个世界有一种克制的温柔',
+        '喜欢看人，但不喜欢被看',
+        '觉得很多事说不清，也不需要说清'
       ],
-      misunderstand: '别人会觉得你“捉摸不透”“忽冷忽热”“不够稳定”。其实你只是没有能力在能量低的时候伪装热情——你不是不想，是真的做不到。你的沉默不是拒绝，是耗尽了。',
-      boundary: '你的活人感是一条水位线，取决于你此刻还剩多少力气。很多人误以为那是你的态度，其实那是你的电量。学会提前告诉别人“我现在电量很低”，会救下很多关系。',
-      keyword: '「我不是忽冷忽热，我只是潮汐。」'
+      mis: '别人觉得你「什么都懂，但什么都不说」。你不是不想说，你只是觉得很多话说了也没用。你的沉默里有一种尊重。',
+      boundary: '你的镜头藏在那些远远拍下的照片里。你不太喜欢出现在画面上，你更喜欢站在画外，看着一切发生。',
+      keyword: '「我站在这里就好，不用进来」'
+    },
+    {
+      id: 'fincher',
+      name: '「大卫·芬奇型」',
+      proto: [10, 8, 82, 28],
+      color: { accent: '#8A8A8A', soft: 'rgba(138, 138, 138, 0.10)' },
+      quote: '我觉得人性本恶，但这并不意味着我们应该放弃',
+      quoteFrom: '《心灵猎人》',
+      line: '你对这个世界的混乱有一种近乎愤怒的精确',
+      desc: '你受不了不准确。你说一件事的时候会想把每个细节都还原，你受不了「差不多」和「大概」。你的桌面是干净的，你的时间表是精确的，你的情绪是控制的。但你不是没有感情，你只是觉得感情应该被放在正确的位置上。你对世界有一种冷峻的温柔——你相信如果每个人都认真一点，很多事不会变成现在这样。',
+      traits: [
+        '对细节极其敏感，别人可能注意不到的地方你也会注意到',
+        '不喜欢失控的感觉，做任何事都希望在自己掌握中',
+        '对「差不多就行」这句话有一种生理上的不适',
+        '不常发脾气，但一旦发了就是真的'
+      ],
+      mis: '别人觉得你「太严厉」「不好接近」。其实你对人没有恶意，你只是对事情有标准。你的冷是一种严肃的温柔。',
+      boundary: '你的镜头藏在那些被你一遍遍调整过的细节里。你不会把过程给别人看，你只会把结果放在那里，然后不说话。',
+      keyword: '「我不是要求高，我只是受不了随便」'
+    },
+    {
+      id: 'lee',
+      name: '「李安型」',
+      proto: [62, 78, 82, 32],
+      color: { accent: '#7A9A6A', soft: 'rgba(122, 154, 106, 0.10)' },
+      quote: '每个人心中都有一座断背山',
+      quoteFrom: '《断背山》',
+      line: '你在两种世界之间搭桥，自己却站在中间',
+      desc: '你身上有一种很特别的东西：你既能理解这一边，也能理解那一边。你是那个在饭桌上帮所有人夹菜、在争论里帮所有人找台阶的人。你很擅长在冲突里找到那个柔软的落点。但你自己呢？你自己往往站在桥的中间，左边也不是，右边也不是。',
+      traits: [
+        '经常充当中间人，帮两边传话',
+        '能理解很多看起来矛盾的立场',
+        '不太会拒绝别人的请求',
+        '有时候觉得没人能理解你真正在想什么'
+      ],
+      mis: '别人觉得你「好说话」「很随和」。其实你只是因为太清楚了——清楚每个人都有自己的理由，清楚没有谁一定是错的。但清楚不总是让人舒服的。',
+      boundary: '你的镜头藏在那些你为别人拍的照片里。你帮所有人拍了照片，但很少让别人帮你拍。你已经习惯了在镜头的后面。',
+      keyword: '「我懂所有人，但很少有人懂我」'
+    },
+    {
+      id: 'tarantino',
+      name: '「昆汀型」',
+      proto: [22, 28, 14, 88],
+      color: { accent: '#D86A4A', soft: 'rgba(216, 106, 74, 0.10)' },
+      quote: '我只拍我想看的电影，因为没人能替我拍',
+      quoteFrom: '采访',
+      line: '你把生活当成一场需要被重新讲述的故事',
+      desc: '你喜欢讲故事，也喜欢成为故事的一部分。你的日子可能看起来和别人没什么两样，但在你的叙述里，一切都变得有意思起来。你喜欢那种不按顺序的、有反转的、让人拍桌子的时刻。你不太害怕混乱，你反而觉得混乱里有一种奇怪的美感。',
+      traits: [
+        '讲故事的时候很生动，喜欢停下来模仿别人的语气',
+        '对流行文化有很强的记忆力，什么都能接上梗',
+        '喜欢有强烈风格的东西，讨厌不痛不痒',
+        '做决定常常靠直觉，事后才想起来分析'
+      ],
+      mis: '别人觉得你「有点夸张」「不太严肃」。但你只是觉得，人生本来就该讲得有意思一点。',
+      boundary: '你的镜头藏在那些你讲给别人听的故事里。很多事情在你嘴里会变得比原来更精彩，但你知道，那是因为你真的用心记住了那些细节。',
+      keyword: '「我讲的故事可能比真的还好听」'
+    },
+    {
+      id: 'miyazaki',
+      name: '「宫崎骏型」',
+      proto: [62, 82, 82, 18],
+      color: { accent: '#6AA0D8', soft: 'rgba(106, 160, 216, 0.10)' },
+      quote: '内心强大，才能道歉；但必须更强大，才能原谅',
+      quoteFrom: '《幽灵公主》',
+      line: '你相信世界值得被温柔地对待',
+      desc: '你身上有一种很少见的干净。你相信人心是好的，相信困难是可以过去的，相信善良不是一种弱点。你不太喜欢那些太复杂、太阴暗的东西，你喜欢温暖的、明亮的、有希望的。这不是天真，这是你在看过很多之后，依然选择相信的东西。',
+      traits: [
+        '愿意对陌生人好，哪怕对方不一定会回报',
+        '喜欢自然、天空、云、风',
+        '不太喜欢太尖锐或者太消极的东西',
+        '对世界有一种朴素的、坚定的信心'
+      ],
+      mis: '别人觉得你「太理想主义」「没被社会毒打过」。其实你知道世界是什么样的，你只是不打算放弃你觉得对的那条路。',
+      boundary: '你的镜头藏在那些你看到的很美的瞬间里。你觉得值得记下来的东西往往很简单：一朵云、一只猫、一个小孩的笑。你知道这些东西才是真的。',
+      keyword: '「我知道世界很复杂，但我还是想相信一些简单的好的东西」'
+    },
+    {
+      id: 'bong',
+      name: '「奉俊昊型」',
+      proto: [28, 12, 82, 88],
+      color: { accent: '#9A6AB8', soft: 'rgba(154, 106, 184, 0.10)' },
+      quote: '我不相信纯粹的好人或者坏人，我只相信处境',
+      quoteFrom: '《寄生虫》',
+      line: '你看到的从来不是一个人，而是一整个系统',
+      desc: '你不满足于表面的故事。你更想知道的是：为什么这件事会发生，是谁在决定这件事，背后是什么样的结构。你对这个世界的观察有一种冷静的愤怒。你不喜欢喊口号，你更喜欢把问题放在你面前，让你自己看到。你身上有一种很少见的清醒。',
+      traits: [
+        '看新闻会想到背后的原因，而不是只有情绪',
+        '喜欢那些「看完了会想很久」的东西',
+        '对「理所当然」这件事保持警惕',
+        '不太容易被煽动，喜欢自己思考'
+      ],
+      mis: '别人觉得你「太冷静」「想得太深」。其实你不是没有情绪，你只是觉得情绪如果不指向一个方向，就没有意义。',
+      boundary: '你的镜头藏在那些你看到但没说出来的东西里。你发现了太多别人没注意到的事，但你不知道怎么表达，所以选择沉默。',
+      keyword: '「我看到的不只是表面，还有表面下面的一切」'
+    },
+    {
+      id: 'iwai',
+      name: '「岩井俊二型」',
+      proto: [88, 82, 12, 88],
+      color: { accent: '#D88A9A', soft: 'rgba(216, 138, 154, 0.10)' },
+      quote: '青春就是一场大雨，即使感冒了，也想再淋一次',
+      quoteFrom: '《情书》',
+      line: '你的回忆里总有一场下不完的雪',
+      desc: '你是一个住在回忆里的人。你记得很多别人已经忘掉的事，记得那些微小的、失落的、温柔的瞬间。你对「过去」有一种很深的眷恋，你也知道这种眷恋会让你走得慢一些。你的世界是淡淡的、朦胧的、有点难过的。你不太喜欢大声说话，因为你心里已经有很多声音了。',
+      traits: [
+        '会突然想起很多年前的一件很小的事',
+        '喜欢看老照片，听旧歌',
+        '对「青春」这个主题有一种挥不去的迷恋',
+        '心里想很多，但很少说出口'
+      ],
+      mis: '别人觉得你「活在回忆里」「不够往前看」。你不是不想往前，你只是觉得过去那些事，也值得被好好记住。',
+      boundary: '你的镜头藏在那些你舍不得删掉的旧照片里。你留着它们，不是因为你不想往前走，而是因为你舍不得那些已经走远的人。',
+      keyword: '「我不是活在过去，我只是不想忘记」'
+    },
+    {
+      id: 'coen',
+      name: '「科恩兄弟型」',
+      proto: [30, 12, 62, 88],
+      color: { accent: '#A88A5A', soft: 'rgba(168, 138, 90, 0.10)' },
+      quote: '生活就是一堆乱七八糟的东西，有时候它会突然变得很搞笑',
+      quoteFrom: '《谋杀绿脚趾》',
+      line: '你觉得世界荒诞，但荒诞得挺好笑',
+      desc: '你对这个世界有一种很特别的态度：你知道它没什么道理，但你觉得这件事本身很有意思。你喜欢那些奇怪的、不按常理出牌的人和事。你不急着给世界找一个意义，你更愿意站在旁边，看着它自己演下去。你的幽默是冷的，但你的心是热的。',
+      traits: [
+        '经常被一些「这也可以」的事逗笑',
+        '对世界的荒谬有一种奇怪的接受度',
+        '不太会跟着别人一起激动，喜欢冷眼旁观',
+        '喜欢那些有点怪、有点边缘的故事'
+      ],
+      mis: '别人觉得你「有点冷」「什么都看不上」。其实你只是觉得，很多事认真起来反而没意思。',
+      boundary: '你的镜头藏在那些你觉得好笑但别人get不到的时刻里。那些时刻是你一个人的，你也不想解释。',
+      keyword: '「世界挺荒诞的，但笑一笑就过去了」'
+    },
+    {
+      id: 'abbas',
+      name: '「阿巴斯型」',
+      proto: [82, 62, 12, 32],
+      color: { accent: '#A89A6A', soft: 'rgba(168, 154, 106, 0.10)' },
+      quote: '电影就是让你看到你平时看不到的东西',
+      quoteFrom: '采访',
+      line: '你相信最简单的东西里藏着最深的答案',
+      desc: '你不喜欢复杂的东西。你相信真理往往藏在最简单的地方：一棵树、一条路、一个孩子的眼神。你的镜头很慢，慢到别人会觉得你什么都没拍。但你知道你拍了什么。你不是不喜欢大主题，你只是觉得，大主题从来都藏在很小的事里。',
+      traits: [
+        '喜欢一个人走很久的路',
+        '觉得生活里很多事说不清，但也不需要说清',
+        '不太喜欢激烈的东西，喜欢安静的',
+        '看东西的时候会看很久'
+      ],
+      mis: '别人觉得你「太安静」「没什么想法」。其实你想法很多，只是它们都在你的沉默里。',
+      boundary: '你的镜头藏在那些别人看不出意义的画面里。你觉得有意义就够了，不需要跟任何人解释。',
+      keyword: '「我看到的，比你想象的多」'
+    },
+    {
+      id: 'park',
+      name: '「朴赞郁型」',
+      proto: [18, 32, 14, 28],
+      color: { accent: '#A84A4A', soft: 'rgba(168, 74, 74, 0.10)' },
+      quote: '复仇是一道冷掉的菜，但有时候你必须把它吃完',
+      quoteFrom: '《老男孩》',
+      line: '你的优雅和暴力住在同一个房间里',
+      desc: '你身上有一种张力。你看起来是克制的、有教养的、讲礼貌的，但你知道自己心里有一些很强烈的东西。你喜欢那种表面平静、底下涌动的状态。你对美有一种近乎苛刻的追求，也对暗有一种说不清的着迷。你不太让别人看到你的那一面，但它一直在那里。',
+      traits: [
+        '对外人温和礼貌，对亲近的人有强烈的占有欲',
+        '喜欢有风格的东西，讨厌平庸',
+        '心里有一些不太愿意承认的黑暗面',
+        '对「复仇」这个主题有一种隐秘的共鸣'
+      ],
+      mis: '别人觉得你「很有教养」「很体面」。他们不知道，你只是把很多东西藏得很好。',
+      boundary: '你的镜头藏在你从不示人的那一面里。你不会让任何人看到完整的你，因为你知道，完整意味着脆弱。',
+      keyword: '「我很体面，但我心里有另一部电影」'
+    },
+    {
+      id: 'yang',
+      name: '「杨德昌型」',
+      proto: [82, 12, 82, 32],
+      color: { accent: '#7A8A9A', soft: 'rgba(122, 138, 154, 0.10)' },
+      quote: '我们都在自己的世界里，孤独地活着',
+      quoteFrom: '《一一》',
+      line: '你把一座城市的孤独拍成了一部史诗',
+      desc: '你关心的从来不是一个人，而是一群人、一座城市、一个时代。你有一种很特别的冷——不是疏远，而是保持距离地看。你不急着同情谁，也不急着批判谁，你只是把所有人的孤独都放在一个画面里，然后让你自己去看。你对这个世界有一种冷静的爱。',
+      traits: [
+        '喜欢观察整个环境，而不是只看一个人',
+        '对城市的孤独有一种特别的敏感',
+        '不太喜欢情绪化的表达，喜欢克制的',
+        '觉得很多问题没有答案，但值得被提出'
+      ],
+      mis: '别人觉得你「太冷静」「不近人情」。其实你看到的比谁都多，你只是不想用一个简单的结论去概括复杂的东西。',
+      boundary: '你的镜头藏在那些你站在远处拍下的城市照片里。你把很多人的故事放在一个画面里，但你自己从来不在里面。',
+      keyword: '「我拍的不是你，是我们所有人」'
+    },
+    {
+      id: 'anderson',
+      name: '「韦斯·安德森型」',
+      proto: [28, 62, 14, 10],
+      color: { accent: '#E87A6A', soft: 'rgba(232, 122, 106, 0.10)' },
+      quote: '我喜欢对称，因为世界太混乱了',
+      quoteFrom: '采访',
+      line: '你把混乱的世界装进对称的框里',
+      desc: '你喜欢一切整齐、对称、有秩序的东西。你的桌面是分类的，你的衣柜是按颜色排的，你的生活里有无数个看不见的框。这不是强迫症，这是你对抗世界的方式。你知道世界是混乱的，所以你更需要自己的小世界里有一点你能控制的东西。你的可爱和你的孤独住在同一个房间里。',
+      traits: [
+        '喜欢对称、整齐、有秩序的东西',
+        '对颜色、材质、排版有一种说不清的敏感',
+        '经常觉得世界太吵了，需要自己静一静',
+        '有一点强迫，但你自己觉得挺好'
+      ],
+      mis: '别人觉得你「有点怪」「有点做作」。其实你只是需要一些秩序才能活下去，这没什么好藏的。',
+      boundary: '你的镜头藏在你精心布置的每一个角落里。你会把东西摆得很整齐，然后拍下来。那个画面里没有别人，只有你自己知道的秩序。',
+      keyword: '「我把世界排好了，才敢往里看」'
+    },
+    {
+      id: 'tarkovsky',
+      name: '「塔可夫斯基型」',
+      proto: [88, 12, 32, 72],
+      color: { accent: '#9A7A6A', soft: 'rgba(154, 122, 106, 0.10)' },
+      quote: '时间是雕刻出来的',
+      quoteFrom: '《雕刻时光》',
+      line: '你的时间不按钟表走，按情绪走',
+      desc: '你活在自己的时间里。别人觉得你慢，但你不觉得——你只是按照自己心里的节奏在走。你对那些「有用」「有效率」的事没有太大兴趣，你更喜欢那些无用的、缓慢的、需要待着看很久的东西。你心里有一个很大的空间，别人很少能进去。',
+      traits: [
+        '喜欢一个人待很久，什么都不做',
+        '对时间的感觉和大多数人不太一样',
+        '喜欢看水、看火、看云',
+        '不太喜欢被安排，需要自己的节奏'
+      ],
+      mis: '别人觉得你「太慢」「不着急」。你不是不着急，你只是觉得，着急也没有用。',
+      boundary: '你的镜头藏在你一个人待着的那些时间里。那些时间没有办法分享，因为你一旦意识到有人在看，就不是那个状态了。',
+      keyword: '「我活在自己的时间里，别人的钟表和我无关」'
+    },
+    {
+      id: 'ritchie',
+      name: '「盖·里奇型」',
+      proto: [10, 62, 14, 88],
+      color: { accent: '#5A8AD8', soft: 'rgba(90, 138, 216, 0.10)' },
+      quote: '别想太多，干了再说',
+      quoteFrom: '采访',
+      line: '你的生活节奏快得像一场停不下来的派对',
+      desc: '你喜欢热闹，喜欢有意思的人，喜欢那些突然发生的事。你不太做计划，也不太担心计划被打乱——反正生活本来就是乱的。你的嘴很快，脑子也很快，你受不了磨磨蹭蹭的人。你身上有一种特别的能量，别人靠近你会觉得轻松。',
+      traits: [
+        '喜欢临时起意，讨厌提前很久做计划',
+        '讲话速度快，喜欢玩梗',
+        '朋友很多，但真正走心的可能只有几个',
+        '对无聊的容忍度很低'
+      ],
+      mis: '别人觉得你「不靠谱」「太跳」。其实你只是觉得人生很短，没必要那么严肃。',
+      boundary: '你的镜头藏在那些热闹的夜晚里。你好像什么都不在乎，但你其实记得每个人的笑。',
+      keyword: '「别想太多，先干了再说」'
+    },
+    {
+      id: 'bergman',
+      name: '「伯格曼型」',
+      proto: [88, 8, 82, 62],
+      color: { accent: '#8A8A9A', soft: 'rgba(138, 138, 154, 0.10)' },
+      quote: '我一直想找到那个答案，但我发现答案就是问题本身',
+      quoteFrom: '《第七封印》',
+      line: '你一直在问那些没有答案的问题',
+      desc: '你身上有一种很重的东西。你不太会聊那些轻松的、日常的话题，你更容易被那些「为什么活着」「什么是意义」这样的问题吸引。你不太能忍受表面的快乐，你觉得那都是假的。你的世界是寂静的、冷的、有分量的。你一个人在的时候，才是真的你。',
+      traits: [
+        '经常想一些很大的、没有答案的问题',
+        '不太喜欢社交场合，觉得大部分对话没有意义',
+        '对「死亡」「孤独」「信仰」这些话题不回避',
+        '很少觉得真的快乐，但也不是不幸福'
+      ],
+      mis: '别人觉得你「太沉重」「难以接近」。其实你只是没办法假装。你宁愿一个人待着，也不想说那些你不相信的话。',
+      boundary: '你的镜头藏在那些你一个人面对的时刻里。你会想很多很重的东西，但你很少跟别人说，因为你知道大部分人接不住。',
+      keyword: '「我一直在问，不是为了找到答案」'
+    },
+    {
+      id: 'kitano',
+      name: '「北野武型」',
+      proto: [28, 62, 82, 28],
+      color: { accent: '#4A6A9A', soft: 'rgba(74, 106, 154, 0.10)' },
+      quote: '我不是温柔的人，但我记得每一个对我好的人',
+      quoteFrom: '采访',
+      line: '你的温柔藏在最硬的壳里',
+      desc: '你看起来很不好惹。你说话直接，不太会哄人，也不太会表达感情。但认识你久的人都知道，你的心里有一个很柔软的地方。你不会说我关心你，但你会在大雨天出现在楼下；你不会说我想你了，但你会记得对方喜欢的每一个小东西。你的爱是笨拙的，但很重。',
+      traits: [
+        '说话直接，不太会拐弯',
+        '不太会表达感情，但会用行动照顾人',
+        '对朋友有一种很讲义气的忠诚',
+        '不太习惯被温柔对待，会不知所措'
+      ],
+      mis: '别人觉得你「凶」「不好相处」。其实你只是不知道怎么表达，你的关心都藏在你看似不在意的小事里。',
+      boundary: '你的镜头藏在那些你不说但做了的事里。你不习惯让人看到你柔软的那一面，但你知道你一直在。',
+      keyword: '「我不说，但我一直在」'
     }
   ];
 
   /* =========================================================
-     三、状态与元素
+     三、状态
      ========================================================= */
   const state = {
     index: 0,
@@ -1110,39 +1566,53 @@
   };
 
   const els = {
-    screens:      document.querySelectorAll('.screen'),
-    dotProgress:  document.getElementById('dotProgress'),
-    qIndex:       document.getElementById('qIndex'),
-    qNum:         document.getElementById('qNum'),
-    qText:        document.getElementById('qText'),
-    options:      document.getElementById('options'),
-    qcard:        document.getElementById('qcard'),
-    backBtn:      document.getElementById('backBtn'),
-    startBtn:     document.getElementById('startBtn'),
-    retryBtn:     document.getElementById('retryBtn'),
-    shareBtn:     document.getElementById('shareBtn'),
-    radar:        document.getElementById('radar'),
-    dims:         document.getElementById('dims'),
-    resName:      document.getElementById('resName'),
-    resLine:      document.getElementById('resLine'),
-    resDesc:      document.getElementById('resDesc'),
-    resTraits:    document.getElementById('resTraits'),
-    resMis:       document.getElementById('resMis'),
-    resBoundary:  document.getElementById('resBoundary'),
-    resKeyword:   document.getElementById('resKeyword'),
-    toast:        document.getElementById('toast')
+    screens: document.querySelectorAll('.screen'),
+    progressInner: document.getElementById('progressInner'),
+    qIndex: document.getElementById('qIndex'),
+    qNum: document.getElementById('qNum'),
+    qText: document.getElementById('qText'),
+    options: document.getElementById('options'),
+    qcard: document.getElementById('qcard'),
+    backBtn: document.getElementById('backBtn'),
+    startBtn: document.getElementById('startBtn'),
+    retryBtn: document.getElementById('retryBtn'),
+    shareBtn: document.getElementById('shareBtn'),
+    radar: document.getElementById('radar'),
+    dims: document.getElementById('dims'),
+    resName: document.getElementById('resName'),
+    resLine: document.getElementById('resLine'),
+    resDesc: document.getElementById('resDesc'),
+    resTraits: document.getElementById('resTraits'),
+    resMis: document.getElementById('resMis'),
+    resBoundary: document.getElementById('resBoundary'),
+    resKeyword: document.getElementById('resKeyword'),
+    quoteText: document.getElementById('quoteText'),
+    quoteFrom: document.getElementById('quoteFrom'),
+    toast: document.getElementById('toast')
   };
 
-  /* =========================================================
-     四、工具
-     ========================================================= */
-  function showScreen(id) {
-    els.screens.forEach(function (s) {
-      s.classList.toggle('active', s.id === id);
-    });
-    window.scrollTo(0, 0);
+  // 初始化进度条（20 个齿孔）
+  function initProgressBar() {
+    els.progressInner.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'progress-piece';
+      els.progressInner.appendChild(piece);
+    }
+  }
+  initProgressBar();
+
+  function updateProgressBar(currentIndex) {
+    const pieces = els.progressInner.children;
+    for (let i = 0; i < pieces.length; i++) {
+      pieces[i].classList.toggle('filled', i <= currentIndex);
+    }
   }
 
+  function showScreen(id) {
+    els.screens.forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    window.scrollTo(0, 0);
+  }
   function pad2(n) { return String(n).padStart(2, '0'); }
 
   let toastTimer = null;
@@ -1150,69 +1620,47 @@
     els.toast.textContent = msg;
     els.toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      els.toast.classList.remove('show');
-    }, 2000);
+    toastTimer = setTimeout(function () { els.toast.classList.remove('show'); }, 2000);
   }
 
   /* =========================================================
-     五、答题流程
+     四、答题
      ========================================================= */
-  function renderDots() {
-    els.dotProgress.innerHTML = '';
-    for (let i = 0; i < QUESTIONS.length; i++) {
-      const d = document.createElement('div');
-      d.className = 'dot';
-      if (state.answers[i] !== null) d.classList.add('done');
-      if (i === state.index) d.classList.add('current');
-      els.dotProgress.appendChild(d);
-    }
-  }
-
   function renderQuestion(i) {
     const q = QUESTIONS[i];
-
     els.qIndex.textContent = pad2(i + 1);
-    els.qNum.textContent   = pad2(i + 1);
-    els.qText.textContent  = q.text;
-
-    renderDots();
-
+    els.qNum.textContent = pad2(i + 1);
+    updateProgressBar(i);
+    els.qText.textContent = q.text;
     els.options.innerHTML = '';
-    q.options.forEach(function (opt, idx) {
-      const color = OPT_COLORS[idx % OPT_COLORS.length];
 
+    q.options.forEach(function (opt, idx) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'option';
-      btn.style.setProperty('--opt-color', color.main);
-      btn.style.setProperty('--opt-bg', color.bg);
       if (state.answers[i] === idx) btn.classList.add('selected');
 
-      const dot = document.createElement('span');
-      dot.className = 'dot-color';
+      const tag = document.createElement('span');
+      tag.className = 'tag';
 
       const txt = document.createElement('span');
       txt.className = 'otext';
       txt.textContent = opt.t;
 
-      btn.appendChild(dot);
+      btn.appendChild(tag);
       btn.appendChild(txt);
       btn.addEventListener('click', function () { chooseOption(idx, btn); });
       els.options.appendChild(btn);
     });
 
     if (i > 0) els.backBtn.classList.add('show');
-    else       els.backBtn.classList.remove('show');
+    else els.backBtn.classList.remove('show');
   }
 
   function chooseOption(optIdx, btn) {
     if (state.animating) return;
-
     state.answers[state.index] = optIdx;
     btn.classList.add('selected');
-    renderDots();
-
     state.animating = true;
 
     setTimeout(function () {
@@ -1222,21 +1670,18 @@
       } else {
         goLoading();
       }
-    }, 300);
+    }, 320);
   }
 
   function transitionToNext() {
     const card = els.qcard;
     card.classList.add('out');
-
     setTimeout(function () {
       renderQuestion(state.index);
-
       card.classList.remove('out');
       card.classList.add('pre');
       void card.offsetWidth;
       card.classList.remove('pre');
-
       state.animating = false;
     }, 265);
   }
@@ -1249,7 +1694,7 @@
   }
 
   /* =========================================================
-     六、计分与匹配（归一化加权距离 + 区分度加成）
+     五、计分与匹配
      ========================================================= */
   function computeScores() {
     const raw = [0, 0, 0, 0];
@@ -1260,7 +1705,7 @@
     }
     return raw.map(function (r, d) {
       const span = DIM_MAX[d] - DIM_MIN[d];
-      const pct = (r - DIM_MIN[d]) / span * 100;
+      let pct = (r - DIM_MIN[d]) / span * 100;
       return Math.round(Math.max(0, Math.min(100, pct)));
     });
   }
@@ -1268,12 +1713,11 @@
   function matchType(scores) {
     const norm = scores.map(function (s) { return s / 100; });
 
-    /* 所有类型在各维度的平均值 */
     const dimAvgs = [0, 0, 0, 0];
     TYPES.forEach(function (t) {
       for (let d = 0; d < 4; d++) dimAvgs[d] += t.proto[d] / 100;
     });
-    dimAvgs.forEach(function (a, d) { dimAvgs[d] /= TYPES.length; });
+    dimAvgs.forEach(function (a, d) { dimAvgs[d] = a / TYPES.length; });
 
     let best = TYPES[0];
     let bestScore = Infinity;
@@ -1281,61 +1725,54 @@
     TYPES.forEach(function (type) {
       const protoNorm = type.proto.map(function (p) { return p / 100; });
 
-      /* 标志性维度加权 */
-      const weights = [0, 0, 0, 0];
+      const devList = [];
+      for (let d = 0; d < 4; d++) {
+        devList.push({ d: d, dev: Math.abs(protoNorm[d] - dimAvgs[d]) });
+      }
+      devList.sort(function (a, b) { return b.dev - a.dev; });
+      const keyDims = [devList[0].d, devList[1].d];
+
+      let weightedDist = 0;
       let weightSum = 0;
       for (let d = 0; d < 4; d++) {
-        const dev = Math.abs(protoNorm[d] - dimAvgs[d]);
-        weights[d] = 1 + dev * 3;
-        weightSum += weights[d];
-      }
-
-      /* 加权欧氏距离 */
-      let dist = 0;
-      for (let d = 0; d < 4; d++) {
+        const deviation = Math.abs(protoNorm[d] - dimAvgs[d]);
+        let weight = 1 + deviation * 2.8;
+        if (keyDims.indexOf(d) !== -1) weight *= 2.4;
         const diff = norm[d] - protoNorm[d];
-        dist += weights[d] * diff * diff;
+        weightedDist += weight * diff * diff;
+        weightSum += weight;
       }
-      dist /= weightSum;
+      weightedDist = weightedDist / weightSum;
 
-      /* 区分度加成：原型越有辨识度，越容易被命中 */
-      let variance = 0;
+      let protoVariance = 0;
       for (let d = 0; d < 4; d++) {
-        variance += Math.pow(protoNorm[d] - 0.5, 2);
+        protoVariance += Math.pow(protoNorm[d] - 0.5, 2);
       }
-      variance /= 4;
-      const bonus = 1 - variance * 0.3;
+      protoVariance = protoVariance / 4;
+      const distinctionBonus = 1 - protoVariance * 0.22;
 
-      const finalScore = dist * bonus;
-
-      if (finalScore < bestScore) {
-        bestScore = finalScore;
-        best = type;
-      }
+      const finalScore = weightedDist * distinctionBonus;
+      if (finalScore < bestScore) { bestScore = finalScore; best = type; }
     });
 
     return best;
   }
 
   /* =========================================================
-     七、雷达图（浅色主题）
+     六、雷达图
      ========================================================= */
-  function setupRadar(values) {
+  function setupRadar(values, accent) {
     const canvas = els.radar;
     if (!canvas || !canvas.parentElement) return;
 
     const dpr = window.devicePixelRatio || 1;
     let wrapWidth = canvas.parentElement.clientWidth;
-
-    if (wrapWidth <= 0) {
-      wrapWidth = Math.min(window.innerWidth - 40, 480) - 64;
-    }
+    if (wrapWidth <= 0) wrapWidth = Math.min(window.innerWidth - 44, 480) - 44;
 
     const size = Math.min(Math.max(wrapWidth, 200), 320);
-
-    canvas.style.width  = size + 'px';
+    canvas.style.width = size + 'px';
     canvas.style.height = size + 'px';
-    canvas.width  = Math.round(size * dpr);
+    canvas.width = Math.round(size * dpr);
     canvas.height = Math.round(size * dpr);
 
     const ctx = canvas.getContext('2d');
@@ -1343,135 +1780,151 @@
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    animateRadar(ctx, size, values);
+    animateRadar(ctx, size, values, accent);
   }
 
-  function drawRadar(ctx, size, values) {
-    ctx.clearRect(0, 0, size, size);
+  function hexToRgba(hex, alpha) {
+    const h = hex.replace('#', '');
+    const r = parseInt(h.slice(0, 2), 16);
+    const g = parseInt(h.slice(2, 4), 16);
+    const b = parseInt(h.slice(4, 6), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
 
+  function drawRadar(ctx, size, values, accent) {
+    ctx.clearRect(0, 0, size, size);
     const cx = size / 2;
     const cy = size / 2;
-    const R  = size * 0.27;
+    const R = size * 0.24;
     const angles = [-Math.PI / 2, 0, Math.PI / 2, Math.PI];
 
-    /* 网格环 */
     for (let ring = 1; ring <= 4; ring++) {
       const r = R * ring / 4;
       ctx.beginPath();
       for (let i = 0; i < 4; i++) {
         const x = cx + Math.cos(angles[i]) * r;
         const y = cy + Math.sin(angles[i]) * r;
-        if (i === 0) ctx.moveTo(x, y);
-        else         ctx.lineTo(x, y);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
       }
       ctx.closePath();
-      ctx.strokeStyle = ring === 4 ? 'rgba(43,42,40,0.16)' : 'rgba(43,42,40,0.07)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = ring === 4 ? 'rgba(240, 230, 210, 0.28)' : 'rgba(240, 230, 210, 0.08)';
+      ctx.lineWidth = ring === 4 ? 1.2 : 1;
       ctx.stroke();
     }
 
-    /* 轴线 */
     for (let i = 0; i < 4; i++) {
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(cx + Math.cos(angles[i]) * R, cy + Math.sin(angles[i]) * R);
-      ctx.strokeStyle = 'rgba(43,42,40,0.08)';
+      ctx.strokeStyle = 'rgba(240, 230, 210, 0.12)';
       ctx.lineWidth = 1;
       ctx.stroke();
     }
 
-    /* 数据点 */
     const pts = [];
     for (let i = 0; i < 4; i++) {
       const v = Math.max(0, Math.min(100, values[i])) / 100;
       const r = R * v;
-      pts.push([
-        cx + Math.cos(angles[i]) * r,
-        cy + Math.sin(angles[i]) * r
-      ]);
+      pts.push([cx + Math.cos(angles[i]) * r, cy + Math.sin(angles[i]) * r]);
     }
 
-    /* 填充 */
+    // 发光填充
+    ctx.save();
+    ctx.shadowColor = accent;
+    ctx.shadowBlur = 18;
+
     ctx.beginPath();
     for (let i = 0; i < 4; i++) {
       if (i === 0) ctx.moveTo(pts[i][0], pts[i][1]);
-      else         ctx.lineTo(pts[i][0], pts[i][1]);
+      else ctx.lineTo(pts[i][0], pts[i][1]);
     }
     ctx.closePath();
-
-    const grad = ctx.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
-    grad.addColorStop(0, 'rgba(255,139,106,0.34)');
-    grad.addColorStop(1, 'rgba(123,167,215,0.26)');
-    ctx.fillStyle = grad;
+    ctx.fillStyle = hexToRgba(accent, 0.22);
     ctx.fill();
+    ctx.restore();
 
-    /* 描边 */
-    ctx.strokeStyle = '#FF8B6A';
-    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+      if (i === 0) ctx.moveTo(pts[i][0], pts[i][1]);
+      else ctx.lineTo(pts[i][0], pts[i][1]);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 1.8;
     ctx.lineJoin = 'round';
     ctx.stroke();
 
-    /* 顶点 */
     for (let i = 0; i < 4; i++) {
+      ctx.save();
+      ctx.shadowColor = accent;
+      ctx.shadowBlur = 12;
       ctx.beginPath();
       ctx.arc(pts[i][0], pts[i][1], 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = accent;
       ctx.fill();
-      ctx.strokeStyle = '#FF8B6A';
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(pts[i][0], pts[i][1], 2, 0, Math.PI * 2);
+      ctx.fillStyle = '#12100E';
+      ctx.fill();
     }
 
-    /* 标签 */
-    ctx.font = '600 11.5px -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif';
-    ctx.fillStyle = '#6B6862';
-    const off = 13;
+    ctx.font = '700 12px "LXGW WenKai", "PingFang SC", "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = 'rgba(240, 230, 210, 0.88)';
+    const off = 15;
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(DIM_NAMES[0], cx, cy - R - off + 5);
+    ctx.fillText(DIM_META[0].name, cx, cy - R - off + 4);
 
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(DIM_NAMES[1], cx + R + off, cy);
+    ctx.fillText(DIM_META[1].name, cx + R + off, cy);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
-    ctx.fillText(DIM_NAMES[2], cx, cy + R + off - 3);
+    ctx.fillText(DIM_META[2].name, cx, cy + R + off - 4);
 
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    ctx.fillText(DIM_NAMES[3], cx - R - off, cy);
+    ctx.fillText(DIM_META[3].name, cx - R - off, cy);
   }
 
-  function animateRadar(ctx, size, target) {
-    const duration = 880;
+  function animateRadar(ctx, size, target, accent) {
+    const duration = 1000;
     const start = performance.now();
-
     function frame(now) {
       const p = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
       const current = target.map(function (v) { return v * eased; });
-      drawRadar(ctx, size, current);
+      drawRadar(ctx, size, current, accent);
       if (p < 1) requestAnimationFrame(frame);
     }
-
     requestAnimationFrame(frame);
   }
 
   /* =========================================================
-     八、结果渲染
+     七、结果渲染
      ========================================================= */
   function renderResult() {
     const scores = computeScores();
     const type = matchType(scores);
+    const accent = type.color.accent;
 
-    els.resName.textContent     = type.name;
-    els.resLine.textContent     = type.line;
-    els.resDesc.textContent     = type.desc;
-    els.resMis.textContent      = type.misunderstand;
+    // 设置主题色
+    document.documentElement.style.setProperty('--accent', accent);
+    document.documentElement.style.setProperty('--accent-soft', type.color.soft);
+
+    // 基础内容
+    els.resName.textContent = type.name;
+    els.quoteText.textContent = type.quote;
+    els.quoteFrom.textContent = '—— ' + type.quoteFrom;
+    els.resLine.textContent = type.line;
+    els.resDesc.textContent = type.desc;
+    els.resMis.textContent = type.mis;
     els.resBoundary.textContent = type.boundary;
-    els.resKeyword.textContent  = type.keyword;
+    els.resKeyword.textContent = type.keyword;
 
     els.resTraits.innerHTML = '';
     type.traits.forEach(function (t) {
@@ -1480,30 +1933,58 @@
       els.resTraits.appendChild(li);
     });
 
-    /* 四维 Bento 网格 */
+    // 维度面板
     els.dims.innerHTML = '';
-    DIM_NAMES.forEach(function (name, i) {
-      const cell = document.createElement('div');
-      cell.className = 'dim-cell d' + i;
+    DIM_META.forEach(function (meta, i) {
+      const row = document.createElement('div');
+      row.className = 'dim-row';
 
       const head = document.createElement('div');
-      head.className = 'dim-name';
-      const nm = document.createElement('span');
-      nm.textContent = name;
-      const val = document.createElement('b');
-      val.textContent = scores[i];
-      head.appendChild(nm);
-      head.appendChild(val);
+      head.className = 'dim-head';
+
+      const leftBox = document.createElement('div');
+      const nameEl = document.createElement('div');
+      nameEl.className = 'dim-name';
+      nameEl.textContent = meta.name;
+      const subEl = document.createElement('div');
+      subEl.className = 'dim-sub';
+      subEl.textContent = meta.sub;
+      leftBox.appendChild(nameEl);
+      leftBox.appendChild(subEl);
+
+      const valEl = document.createElement('span');
+      valEl.className = 'dim-val';
+      valEl.textContent = scores[i];
+
+      head.appendChild(leftBox);
+      head.appendChild(valEl);
+
+      const trackWrap = document.createElement('div');
+      trackWrap.className = 'dim-track-wrap';
+
+      const leftPole = document.createElement('span');
+      leftPole.className = 'dim-pole';
+      leftPole.textContent = meta.left;
 
       const track = document.createElement('div');
       track.className = 'dim-track';
       const fill = document.createElement('div');
       fill.className = 'dim-fill';
+      fill.style.background = meta.color;
+      fill.style.color = meta.color;
       track.appendChild(fill);
 
-      cell.appendChild(head);
-      cell.appendChild(track);
-      els.dims.appendChild(cell);
+      const rightPole = document.createElement('span');
+      rightPole.className = 'dim-pole';
+      rightPole.textContent = meta.right;
+
+      trackWrap.appendChild(leftPole);
+      trackWrap.appendChild(track);
+      trackWrap.appendChild(rightPole);
+
+      row.appendChild(head);
+      row.appendChild(trackWrap);
+      els.dims.appendChild(row);
 
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
@@ -1512,10 +1993,10 @@
       });
     });
 
-    /* 雷达图 */
+    // 雷达图
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        setupRadar(scores);
+        setupRadar(scores, accent);
       });
     });
   }
@@ -1523,27 +2004,25 @@
   function goLoading() {
     showScreen('screen-loading');
     state.animating = true;
-
     setTimeout(function () {
       renderResult();
       showScreen('screen-result');
       state.animating = false;
-    }, 2100);
+    }, 2200);
   }
 
   /* =========================================================
-     九、重置 / 分享
+     八、重置 / 分享
      ========================================================= */
   function resetAll() {
     state.index = 0;
     state.answers = new Array(QUESTIONS.length).fill(null);
     state.animating = false;
-
+    initProgressBar();
     els.dims.innerHTML = '';
     els.options.innerHTML = '';
     els.qText.textContent = '';
     els.resTraits.innerHTML = '';
-    els.dotProgress.innerHTML = '';
   }
 
   function startQuiz() {
@@ -1555,21 +2034,21 @@
   function shareResult() {
     const typeName = els.resName.textContent;
     const typeLine = els.resLine.textContent;
-    const text = '我的活人感类型是' + typeName + '\n' + typeLine +
-                 '\n\n测测你的“活人感”浓度：你在朋友圈里还剩多少真实？\n' + location.href;
+    const quote = els.quoteText.textContent;
+    const text = '我的人生，正在被' + typeName + '拍摄\n' +
+                 '“' + quote + '”\n' + typeLine +
+                 '\n\n测测你是哪种导演：你的生活正在被什么风格拍摄？\n' + location.href;
 
     if (navigator.share) {
-      navigator.share({ title: '测测你的活人感浓度', text: text }).catch(function () {});
+      navigator.share({ title: '测测你是哪种导演', text: text }).catch(function () {});
       return;
     }
-
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
         showToast('结果已复制，去粘贴分享吧');
       }).catch(function () { fallbackCopy(text); });
       return;
     }
-
     fallbackCopy(text);
   }
 
@@ -1591,12 +2070,14 @@
   }
 
   /* =========================================================
-     十、事件绑定
+     九、事件
      ========================================================= */
   els.startBtn.addEventListener('click', startQuiz);
   els.backBtn.addEventListener('click', goBack);
   els.retryBtn.addEventListener('click', function () {
     resetAll();
+    document.documentElement.style.removeProperty('--accent');
+    document.documentElement.style.removeProperty('--accent-soft');
     showScreen('screen-intro');
   });
   els.shareBtn.addEventListener('click', shareResult);
@@ -1607,7 +2088,8 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       const scores = computeScores();
-      setupRadar(scores);
+      const type = matchType(scores);
+      setupRadar(scores, type.color.accent);
     }, 220);
   });
 
